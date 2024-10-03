@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Typography, TextField } from "@mui/material";
 import RadioGroup from "@mui/joy/RadioGroup";
 import Radio from "@mui/joy/Radio";
@@ -14,7 +14,23 @@ const Test1 = () => {
   const [selectedValue, setSelectedValue] = useState("");
   const [answers, setAnswers] = useState({});
   const [required, setRequired] = useState(false);
-  
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const [user, setUser] = useState({
+    Age: "",
+    Name: "",
+    Lastname: "",
+    Email: "",
+  });
+
+  useEffect(() => {
+    setUser({
+      Age: answers[0] || "",
+      Name: answers[1] || "",
+      Lastname: answers[2] || "",
+      Email: answers[3] || "",
+    });
+  }, [answers]);
 
   const handleRadioChange = (event) => {
     setSelectedValue(event.target.value);
@@ -30,28 +46,41 @@ const Test1 = () => {
       ...prev,
       [currentQuestion]: event.target.value,
     }));
-    setRequired(false)
+    setRequired(false);
   };
 
   const handleNext = () => {
-    if (
-      answers[currentQuestion] === undefined ||
-      answers[currentQuestion] === ""
-    ) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const currentAnswer = answers[currentQuestion];
+  
+    if (currentAnswer === undefined || currentAnswer === "") {
       setRequired(true);
+      setErrorMessage("Please fill this in");
       return;
     }
+  
+    if (currentQuestion === 3 && !emailRegex.test(currentAnswer)) {
+      setRequired(true);
+      setErrorMessage("Email is not valid.");
+      return;
+    }
+  
     setRequired(false);
-    setCurrentQuestion((prev) => Math.min(prev + 1, 5)); //! Kac soru oldugunu guncelle
+    setErrorMessage(""); // Hata mesajını temizle
+    setCurrentQuestion((prev) => Math.min(prev + 1, 5));
   };
+  
 
   const handlePrev = () => {
     setCurrentQuestion((prev) => Math.max(prev - 1, 0));
-    setRequired(false)
-
+    setRequired(false);
   };
 
-  console.log(answers);
+  const formatName = (name) => {
+    if (!name) return "";
+    return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
+  };
+
   return (
     <Box sx={{ height: "100vh", overflow: "hidden", position: "relative" }}>
       <TransitionGroup>
@@ -73,18 +102,20 @@ const Test1 = () => {
                 <Typography
                   sx={{
                     mb: 2,
-                    fontWeight: "xl",
-                    textTransform: "uppercase",
-                    fontSize: "xs",
-                    letterSpacing: "0.15rem",
+                    fontWeight: "500",
+                    fontSize: "1.3rem",
+                    letterSpacing: "0.1rem",
                     textAlign: "left",
-                    width: "300px",
+                    width: { xs: "300px", sm: "400px" },
                   }}
                 >
+                  <span style={{ color: "#0445AF", marginRight: "5px" }}>
+                    1.
+                  </span>
                   How old are you?
                 </Typography>
                 <RadioGroup
-                  sx={{ width: "300px", gap: 1.5 }}
+                  sx={{ width: { xs: "300px", sm: "400px" }, gap: 1.5 }}
                   value={answers[currentQuestion] || ""}
                   onChange={handleRadioChange}
                 >
@@ -92,7 +123,7 @@ const Test1 = () => {
                     (value) => (
                       <Sheet
                         key={value}
-                        sx={{ p: 2, borderRadius: "md", boxShadow: "sm" }}
+                        sx={{ p: 2, borderRadius: "sm", boxShadow: "sm" }}
                       >
                         <Radio
                           label={value}
@@ -109,7 +140,7 @@ const Test1 = () => {
                   sx={{
                     display: "flex",
                     flexDirection: "column",
-                    width: "300px",
+                    width: { xs: "300px", sm: "400px" },
                   }}
                 >
                   {required ? (
@@ -138,34 +169,44 @@ const Test1 = () => {
                 </Box>
               </>
             )}
+
             {/* Question 1 */}
             {currentQuestion === 1 && (
               <>
                 <Typography
                   sx={{
                     mb: 2,
-                    fontWeight: "xl",
-                    textTransform: "uppercase",
-                    fontSize: "xs",
-                    letterSpacing: "0.15rem",
+                    fontWeight: "500",
+                    fontSize: "1.3rem",
+                    letterSpacing: "0.1rem",
                     textAlign: "left",
-                    width: "300px",
+                    width: { xs: "300px", sm: "500px" },
                   }}
                 >
+                  <span style={{ color: "#0445AF", marginRight: "5px" }}>
+                    2.
+                  </span>
                   What's your First Name?
                 </Typography>
                 <TextField
-                  variant="outlined"
-                  sx={{ width: "300px", mt: 2 }}
+                  variant="standard"
+                  placeholder="Jane"
+                  sx={{
+                    width: { xs: "300px", sm: "500px" },
+                    mt: 2,
+                    "& .MuiInputBase-input": {
+                      color: "#0445AF",
+                      fontSize: "1.2rem",
+                    },
+                  }}
                   value={answers[currentQuestion] || ""}
                   onChange={handleInputChange}
-                  
                 />
                 <Box
                   sx={{
                     display: "flex",
                     flexDirection: "column",
-                    width: "300px",
+                    width: { xs: "300px", sm: "500px" },
                   }}
                 >
                   {required ? (
@@ -201,51 +242,147 @@ const Test1 = () => {
                 <Typography
                   sx={{
                     mb: 2,
-                    fontWeight: "xl",
-                    textTransform: "uppercase",
-                    fontSize: "xs",
-                    letterSpacing: "0.15rem",
+                    fontWeight: "500",
+                    fontSize: "1.3rem",
+                    letterSpacing: "0.1rem",
                     textAlign: "left",
-                    width: "300px",
+                    width: { xs: "300px", sm: "500px" },
                   }}
                 >
-                  What's your Last Name?
+                  <span style={{ color: "#0445AF", marginRight: "5px" }}>
+                    3.
+                  </span>
+                  What's your Last Name, {formatName(user?.Name)}?
                 </Typography>
                 <TextField
-                  variant="outlined"
-                  sx={{ width: "300px", mt: 2 }}
+                  variant="standard"
+                  placeholder="Smith"
+                  sx={{
+                    width: { xs: "300px", sm: "500px" },
+                    mt: 2,
+                    "& .MuiInputBase-input": {
+                      color: "#0445AF",
+                      fontSize: "1.2rem",
+                    },
+                  }}
                   value={answers[currentQuestion] || ""}
                   onChange={handleInputChange}
                 />
 
-                {required ? (
-                  <Box
-                    sx={{
-                      backgroundColor: "#F7E6E5",
-                      color: "#bc1616",
-                      p: "0.5rem",
-                      mt: "0.5rem",
-                      mb: "-1rem",
-                      borderRadius: "0.2rem",
-                      width: "19rem",
-                      textAlign: "center",
-                      display: "flex",
-                      gap: "0.2rem",
-                    }}
-                  >
-                    <WarningRoundedIcon style={{ fontSize: "0.98rem" }} />
-                    <Typography sx={{ fontSize: "0.8rem" }}>
-                      Please fill this in
-                    </Typography>
-                  </Box>
-                ) : (
-                  <Box sx={{ height: "2rem" }}></Box>
-                )}
+<Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    width: { xs: "300px", sm: "500px" },
+                  }}
+                >
+                  {required ? (
+                    <Box
+                      sx={{
+                        backgroundColor: "#F7E6E5",
+                        color: "#bc1616",
+                        p: "0.5rem",
+                        mt: "0.5rem",
+                        mb: "-1rem",
+                        borderRadius: "0.2rem",
+                        width: "9rem",
+                        textAlign: "center",
+                        display: "flex",
+                        gap: "0.2rem",
+                      }}
+                    >
+                      <WarningRoundedIcon style={{ fontSize: "0.98rem" }} />
+                      <Typography sx={{ fontSize: "0.8rem" }}>
+                        Please fill this in
+                      </Typography>
+                    </Box>
+                  ) : (
+                    <Box sx={{ height: "2rem" }}></Box>
+                  )}
+                </Box>
               </>
             )}
 
             {/* Question 3 */}
+            {currentQuestion === 3 && (
+              <>
+                <Typography
+                  sx={{
+                    mb: 2,
+                    fontWeight: "500",
+                    fontSize: "1.3rem",
+                    letterSpacing: "0.1rem",
+                    textAlign: "left",
+                    width: { xs: "300px", sm: "500px" },
+                  }}
+                >
+                  <span style={{ color: "#0445AF", marginRight: "5px" }}>
+                    4.
+                  </span>
+                  What's your email, {formatName(user?.Name)}?
+                </Typography>
+                <Typography
+                  sx={{
+                    width: {
+                      xs: "300px",
+                      sm: "500px",
+                      mt: "-0.5rem",
+                      fontSize: "0.85rem",
+                    },
+                  }}
+                >
+                  ( Where we can definitely reach out to you - make sure it is
+                  100% correct )
+                </Typography>
+                <TextField
+                  variant="standard"
+                  type="email"
+                  placeholder="name@example.com"
+                  sx={{
+                    width: { xs: "300px", sm: "500px" },
+                    mt: 2,
+                    "& .MuiInputBase-input": {
+                      color: "#0445AF",
+                      fontSize: "1.2rem",
+                    },
+                  }}
+                  value={answers[currentQuestion] || ""}
+                  onChange={handleInputChange}
+                />
 
+<Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    width: { xs: "300px", sm: "500px" },
+                  }}
+                >
+                  {required ? (
+                    <Box
+                      sx={{
+                        backgroundColor: "#F7E6E5",
+                        color: "#bc1616",
+                        p: "0.5rem",
+                        mt: "0.5rem",
+                        mb: "-1rem",
+                        borderRadius: "0.2rem",
+                        width: "9rem",
+                        textAlign: "center",
+                        display: "flex",
+                        gap: "0.2rem",
+                      }}
+                    >
+                      <WarningRoundedIcon style={{ fontSize: "0.98rem" }} />
+                      <Typography sx={{ fontSize: "0.8rem" }}>
+                        {errorMessage}
+                      </Typography>
+                    </Box>
+                  ) : (
+                    <Box sx={{ height: "2rem" }}></Box>
+                  )}
+                </Box>
+              </>
+            )}
           </Box>
         </CSSTransition>
       </TransitionGroup>
