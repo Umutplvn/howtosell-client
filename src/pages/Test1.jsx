@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Box, Typography, TextField } from "@mui/material";
+import { Box, Typography, TextField, Button } from "@mui/material";
 import RadioGroup from "@mui/joy/RadioGroup";
 import Radio from "@mui/joy/Radio";
 import Sheet from "@mui/joy/Sheet";
-import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
-import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import ExpandLessOutlinedIcon from "@mui/icons-material/ExpandLessOutlined";
+import ExpandMoreOutlinedIcon from "@mui/icons-material/ExpandMoreOutlined";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import "../style/test1.css";
 import WarningRoundedIcon from "@mui/icons-material/WarningRounded";
@@ -27,8 +27,10 @@ const Test1 = () => {
     Instagram: "",
     Occupation: "",
     DescOfJob: "",
-    Income:"",
-
+    Income: "",
+    Goal: "",
+    Obstacles:"",
+    DirectInvest:""
   });
 
   useEffect(() => {
@@ -42,6 +44,9 @@ const Test1 = () => {
       Occupation: answers[6] || "",
       DescOfJob: answers[7] || "",
       Income: answers[8] || "",
+      Goal: answers[9] || "",
+      Obstacles: answers[10] || "",
+      DirectInvest: answers[11] || "",
     });
   }, [answers]);
 
@@ -76,13 +81,19 @@ const Test1 = () => {
 
     if (currentQuestion === 3 && !emailRegex.test(currentAnswer)) {
       setRequired(true);
-      setErrorMessage("Email is not valid.");
+      setErrorMessage("Email is not valid");
+      return;
+    }
+
+    if (currentQuestion === 4 && currentAnswer.length <= 5) {
+      setRequired(true);
+      setErrorMessage("Please fill this in");
       return;
     }
 
     setRequired(false);
     setErrorMessage("");
-    setCurrentQuestion((prev) => Math.min(prev + 1, 10)); //! Soru sayisini guncelle buradan
+    setCurrentQuestion((prev) => Math.min(prev + 1, 11)); //! Soru sayisini guncelle buradan
   };
 
   const handlePrev = () => {
@@ -95,6 +106,16 @@ const Test1 = () => {
     return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
   };
 
+  const handleSubmit = () => {
+    const currentAnswer = answers[currentQuestion];
+
+    if (currentAnswer === undefined || currentAnswer === "") {
+      setRequired(true);
+      setErrorMessage("Please fill this in");
+      return;
+    }
+    console.log(user);
+  };
   return (
     <Box sx={{ height: "100vh", overflow: "hidden", position: "relative" }}>
       <TransitionGroup>
@@ -118,7 +139,7 @@ const Test1 = () => {
                     mb: 2,
                     fontWeight: "500",
                     fontSize: "1.3rem",
-                    letterSpacing: "0.1rem",
+                    letterSpacing: "0.03rem",
                     textAlign: "left",
                     width: { xs: "300px", sm: "400px" },
                   }}
@@ -184,7 +205,7 @@ const Test1 = () => {
               </>
             )}
 
-            {/* Question 1 */}
+            {/* Question 1 - Name */}
             {currentQuestion === 1 && (
               <>
                 <Typography
@@ -192,7 +213,7 @@ const Test1 = () => {
                     mb: 2,
                     fontWeight: "500",
                     fontSize: "1.3rem",
-                    letterSpacing: "0.1rem",
+                    letterSpacing: "0.03rem",
                     textAlign: "left",
                     width: { xs: "300px", sm: "500px" },
                   }}
@@ -200,9 +221,11 @@ const Test1 = () => {
                   <span style={{ color: "#0445AF", marginRight: "5px" }}>
                     2.
                   </span>
-                  What's your First Name?
+                  What's your{" "}
+                  <span style={{ fontWeight: "700" }}>First Name</span>?
                 </Typography>
                 <TextField
+                autoFocus
                   variant="standard"
                   placeholder="Jane"
                   sx={{
@@ -250,7 +273,7 @@ const Test1 = () => {
               </>
             )}
 
-            {/* Question 2 */}
+            {/* Question 2 - Last name*/}
             {currentQuestion === 2 && (
               <>
                 <Typography
@@ -258,7 +281,7 @@ const Test1 = () => {
                     mb: 2,
                     fontWeight: "500",
                     fontSize: "1.3rem",
-                    letterSpacing: "0.1rem",
+                    letterSpacing: "0.03em",
                     textAlign: "left",
                     width: { xs: "300px", sm: "500px" },
                   }}
@@ -266,9 +289,12 @@ const Test1 = () => {
                   <span style={{ color: "#0445AF", marginRight: "5px" }}>
                     3.
                   </span>
-                  What's your Last Name, {formatName(user?.Name)}?
+                  What's your{" "}
+                  <span style={{ fontWeight: "700" }}>Last Name</span>,{" "}
+                  {formatName(user?.Name)}?*
                 </Typography>
                 <TextField
+                autoFocus
                   variant="standard"
                   placeholder="Smith"
                   sx={{
@@ -317,7 +343,7 @@ const Test1 = () => {
               </>
             )}
 
-            {/* Question 3 */}
+            {/* Question 3 - email */}
             {currentQuestion === 3 && (
               <>
                 <Typography
@@ -325,7 +351,7 @@ const Test1 = () => {
                     mb: 2,
                     fontWeight: "500",
                     fontSize: "1.3rem",
-                    letterSpacing: "0.1rem",
+                    letterSpacing: "0.03em",
                     textAlign: "left",
                     width: { xs: "300px", sm: "500px" },
                   }}
@@ -333,7 +359,7 @@ const Test1 = () => {
                   <span style={{ color: "#0445AF", marginRight: "5px" }}>
                     4.
                   </span>
-                  What's your email, {formatName(user?.Name)}?
+                  What's your best email, {formatName(user?.Name)}?
                 </Typography>
                 <Typography
                   sx={{
@@ -341,7 +367,7 @@ const Test1 = () => {
                       xs: "300px",
                       sm: "500px",
                       mt: "-0.5rem",
-                      fontSize: "0.85rem",
+                      fontSize: "0.9rem",
                     },
                   }}
                 >
@@ -349,6 +375,7 @@ const Test1 = () => {
                   100% correct)
                 </Typography>
                 <TextField
+                autoFocus
                   variant="standard"
                   type="email"
                   placeholder="name@example.com"
@@ -398,7 +425,7 @@ const Test1 = () => {
               </>
             )}
 
-            {/* Question 4 */}
+            {/* Question 4 - Number */}
             {currentQuestion === 4 && (
               <>
                 <Typography
@@ -406,7 +433,7 @@ const Test1 = () => {
                     mb: 2,
                     fontWeight: "500",
                     fontSize: "1.3rem",
-                    letterSpacing: "0.1rem",
+                    letterSpacing: "0.03em",
                     textAlign: "left",
                     width: { xs: "300px", sm: "500px" },
                   }}
@@ -438,7 +465,9 @@ const Test1 = () => {
                   }}
                 >
                   <PhoneInput
+                  autoFocus
                     defaultCountry="IRE"
+                    defaultValue=""
                     value={answers[currentQuestion] || ""}
                     onChange={(value) => {
                       setAnswers((prev) => ({
@@ -515,7 +544,7 @@ const Test1 = () => {
                     mb: 2,
                     fontWeight: "500",
                     fontSize: "1.3rem",
-                    letterSpacing: "0.1rem",
+                    letterSpacing: "0.03em",
                     textAlign: "left",
                     width: { xs: "300px", sm: "500px" },
                   }}
@@ -526,8 +555,9 @@ const Test1 = () => {
                   What's your Instagram username, {formatName(user?.Name)}?
                 </Typography>
                 <TextField
+                  autoFocus
                   variant="standard"
-                  placeholder="Smith"
+                  placeholder="Type your answer here..."
                   sx={{
                     width: { xs: "300px", sm: "500px" },
                     mt: 2,
@@ -582,9 +612,9 @@ const Test1 = () => {
                     mb: 2,
                     fontWeight: "500",
                     fontSize: "1.3rem",
-                    letterSpacing: "0.1rem",
+                    letterSpacing: "0.03em",
                     textAlign: "left",
-                    width: { xs: "300px", sm: "500px" },
+                    width: { xs: "300px", sm: "400px" },
                   }}
                 >
                   <span style={{ color: "#0445AF", marginRight: "5px" }}>
@@ -592,26 +622,31 @@ const Test1 = () => {
                   </span>
                   What's your current occupation, {formatName(user?.Name)}?
                 </Typography>
-                <TextField
-                  variant="standard"
-                  placeholder="Smith"
-                  sx={{
-                    width: { xs: "300px", sm: "500px" },
-                    mt: 2,
-                    "& .MuiInputBase-input": {
-                      color: "#0445AF",
-                      fontSize: "1.2rem",
-                    },
-                  }}
+                <RadioGroup
+                  sx={{ width: { xs: "300px", sm: "400px" }, gap: 1.5 }}
                   value={answers[currentQuestion] || ""}
-                  onChange={handleInputChange}
-                />
+                  onChange={handleRadioChange}
+                >
+                  {[
+                    "Student",
+                    "Employee",
+                    "Self-Employed / Business Owner",
+                    "Currently Not Working",
+                  ].map((value) => (
+                    <Sheet
+                      key={value}
+                      sx={{ p: 2, borderRadius: "sm", boxShadow: "sm" }}
+                    >
+                      <Radio label={value} overlay disableIcon value={value} />
+                    </Sheet>
+                  ))}
+                </RadioGroup>
 
                 <Box
                   sx={{
                     display: "flex",
                     flexDirection: "column",
-                    width: { xs: "300px", sm: "500px" },
+                    width: { xs: "300px", sm: "400px" },
                   }}
                 >
                   {required ? (
@@ -641,7 +676,7 @@ const Test1 = () => {
               </>
             )}
 
-            {/* Question 7 */}
+            {/* Question 7 - what exactly you do*/}
             {currentQuestion === 7 && (
               <>
                 <Typography
@@ -649,7 +684,7 @@ const Test1 = () => {
                     mb: 2,
                     fontWeight: "500",
                     fontSize: "1.3rem",
-                    letterSpacing: "0.1rem",
+                    letterSpacing: "0.03rem",
                     textAlign: "left",
                     width: { xs: "300px", sm: "500px" },
                   }}
@@ -658,11 +693,16 @@ const Test1 = () => {
                     8.
                   </span>
                   {formatName(user?.Name)}, please let us know a little bit
-                  about exactly you do for a living?
+                  about{" "}
+                  <span style={{ fontWeight: "700" }}>
+                    {" "}
+                    what exactly you do for a living?
+                  </span>
                 </Typography>
                 <TextField
+                autoFocus
                   variant="standard"
-                  placeholder="Smith"
+                  placeholder="Type your answer here..."
                   sx={{
                     width: { xs: "300px", sm: "500px" },
                     mt: 2,
@@ -709,7 +749,304 @@ const Test1 = () => {
               </>
             )}
 
+            {/* Question 8 - Yearly Income */}
+            {currentQuestion === 8 && (
+              <>
+                <Typography
+                  sx={{
+                    mb: 2,
+                    fontWeight: "500",
+                    fontSize: "1.3rem",
+                    letterSpacing: "0.03rem",
+                    textAlign: "left",
+                    width: { xs: "300px", sm: "500px" },
+                  }}
+                >
+                  <span style={{ color: "#0445AF", marginRight: "5px" }}>
+                    9.
+                  </span>
+                  What's your about{" "}
+                  <span style={{ fontWeight: "700" }}> yearly income?</span>
+                </Typography>
+                <TextField
+                  autoFocus
+                  variant="standard"
+                  placeholder="Type your answer here..."
+                  sx={{
+                    width: { xs: "300px", sm: "500px" },
+                    mt: 2,
+                    "& .MuiInputBase-input": {
+                      color: "#0445AF",
+                      fontSize: "1.2rem",
+                    },
+                  }}
+                  value={answers[currentQuestion] || ""}
+                  onChange={handleInputChange}
+                />
 
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    width: { xs: "300px", sm: "500px" },
+                  }}
+                >
+                  {required ? (
+                    <Box
+                      sx={{
+                        backgroundColor: "#F7E6E5",
+                        color: "#bc1616",
+                        p: "0.5rem",
+                        mt: "0.5rem",
+                        mb: "-1rem",
+                        borderRadius: "0.2rem",
+                        width: "9rem",
+                        textAlign: "center",
+                        display: "flex",
+                        gap: "0.2rem",
+                      }}
+                    >
+                      <WarningRoundedIcon style={{ fontSize: "0.98rem" }} />
+                      <Typography sx={{ fontSize: "0.8rem" }}>
+                        Please fill this in
+                      </Typography>
+                    </Box>
+                  ) : (
+                    <Box sx={{ height: "2rem" }}></Box>
+                  )}
+                </Box>
+              </>
+            )}
+
+            {/* Question 9 - Income Goal */}
+            {currentQuestion === 9 && (
+              <>
+                <Typography
+                  sx={{
+                    mb: 2,
+                    fontWeight: "500",
+                    fontSize: "1.3rem",
+                    letterSpacing: "0.03rem",
+                    textAlign: "left",
+                    width: { xs: "300px", sm: "500px" },
+                  }}
+                >
+                  <span style={{ color: "#0445AF", marginRight: "5px" }}>
+                    10.
+                  </span>
+                  What are your goals for sales and business,{" "}
+                  {formatName(user?.Name)}?
+                  <br />
+                  How much would you like to earn per year within next 12
+                  months?
+                </Typography>
+
+                <TextField
+                autoFocus
+                  variant="standard"
+                  placeholder="Type your answer here..."
+                  sx={{
+                    width: { xs: "300px", sm: "500px" },
+                    mt: 2,
+                    "& .MuiInputBase-input": {
+                      color: "#0445AF",
+                      fontSize: "1.2rem",
+                    },
+                  }}
+                  value={answers[currentQuestion] || ""}
+                  onChange={handleInputChange}
+                />
+
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    width: { xs: "300px", sm: "500px" },
+                  }}
+                >
+                  {required ? (
+                    <Box
+                      sx={{
+                        backgroundColor: "#F7E6E5",
+                        color: "#bc1616",
+                        p: "0.5rem",
+                        mt: "0.5rem",
+                        mb: "-1rem",
+                        borderRadius: "0.2rem",
+                        width: "9rem",
+                        textAlign: "center",
+                        display: "flex",
+                        gap: "0.2rem",
+                      }}
+                    >
+                      <WarningRoundedIcon style={{ fontSize: "0.98rem" }} />
+                      <Typography sx={{ fontSize: "0.8rem" }}>
+                        Please fill this in
+                      </Typography>
+                    </Box>
+                  ) : (
+                    <Box sx={{ height: "2rem" }}></Box>
+                  )}
+                </Box>
+              </>
+            )}
+
+            {/* Question 10 - Obstacle */}
+            {currentQuestion === 10 && (
+              <>
+                <Typography
+                  sx={{
+                    mb: 2,
+                    fontWeight: "500",
+                    fontSize: "1.3rem",
+                    letterSpacing: "0.03rem",
+                    textAlign: "left",
+                    width: { xs: "300px", sm: "500px" },
+                  }}
+                >
+                  <span style={{ color: "#0445AF", marginRight: "5px" }}>
+                    11.
+                  </span>
+                  What are the{" "}
+                  <span style={{ fontWeight: "700" }}>biggest obstacles</span>{" "}
+                  that keep you from achieving your goal,{" "}
+                  {formatName(user?.Name)}?
+                </Typography>
+
+                <TextField
+                autoFocus
+                  variant="standard"
+                  placeholder="Type your answer here..."
+                  sx={{
+                    width: { xs: "300px", sm: "500px" },
+                    mt: 2,
+                    "& .MuiInputBase-input": {
+                      color: "#0445AF",
+                      fontSize: "1.2rem",
+                    },
+                  }}
+                  value={answers[currentQuestion] || ""}
+                  onChange={handleInputChange}
+                />
+
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    width: { xs: "300px", sm: "500px" },
+                  }}
+                >
+                  {required ? (
+                    <Box
+                      sx={{
+                        backgroundColor: "#F7E6E5",
+                        color: "#bc1616",
+                        p: "0.5rem",
+                        mt: "0.5rem",
+                        mb: "-1rem",
+                        borderRadius: "0.2rem",
+                        width: "9rem",
+                        textAlign: "center",
+                        display: "flex",
+                        gap: "0.2rem",
+                      }}
+                    >
+                      <WarningRoundedIcon style={{ fontSize: "0.98rem" }} />
+                      <Typography sx={{ fontSize: "0.8rem" }}>
+                        Please fill this in
+                      </Typography>
+                    </Box>
+                  ) : (
+                    <Box sx={{ height: "2rem" }}></Box>
+                  )}
+                </Box>
+              </>
+            )}
+            {/* Question 11 - Obstacle */}
+            {currentQuestion === 11 && (
+              <>
+                <Typography
+                  sx={{
+                    mb: 2,
+                    fontWeight: "500",
+                    fontSize: "1.3rem",
+                    letterSpacing: "0.03rem",
+                    textAlign: "left",
+                    width: { xs: "300px", sm: "500px" },
+                  }}
+                >
+                  <span style={{ color: "#0445AF", marginRight: "5px" }}>
+                    12.
+                  </span>
+                  How much money could you{" "}
+                  <span style={{ fontWeight: "700" }}>directly invest</span> in
+                  achieving these goals, if you are 100% certain that you
+                  achieve them?
+                </Typography>
+
+                <TextField
+                autoFocus
+                  variant="standard"
+                  placeholder="Type your answer here..."
+                  sx={{
+                    width: { xs: "300px", sm: "500px" },
+                    mt: 2,
+                    "& .MuiInputBase-input": {
+                      color: "#0445AF",
+                      fontSize: "1.2rem",
+                    },
+                  }}
+                  value={answers[currentQuestion] || ""}
+                  onChange={handleInputChange}
+                />
+
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    width: { xs: "300px", sm: "500px" },
+                  }}
+                >
+                  {required ? (
+                    <Box
+                      sx={{
+                        backgroundColor: "#F7E6E5",
+                        color: "#bc1616",
+                        p: "0.5rem",
+                        mt: "0.5rem",
+                        mb: "-1rem",
+                        borderRadius: "0.2rem",
+                        width: "9rem",
+                        textAlign: "center",
+                        display: "flex",
+                        gap: "0.2rem",
+                      }}
+                    >
+                      <WarningRoundedIcon style={{ fontSize: "0.98rem" }} />
+                      <Typography sx={{ fontSize: "0.8rem" }}>
+                        Please fill this in
+                      </Typography>
+                    </Box>
+                  ) : (
+                    <Box sx={{ height: "2rem" }}></Box>
+                  )}
+                </Box>
+
+                <Box>
+                  <Button
+                    variant="contained"
+                    sx={{
+                      width: "5rem",
+                      mt: "2rem",
+                      backgroundColor: "#0445AF",
+                    }}
+                    onClick={handleSubmit}
+                  >
+                    Submit
+                  </Button>
+                </Box>
+              </>
+            )}
           </Box>
         </CSSTransition>
       </TransitionGroup>
@@ -725,29 +1062,33 @@ const Test1 = () => {
           justifyContent: "center",
         }}
       >
-        <ArrowUpwardIcon
+        <Button
           onClick={handlePrev}
           sx={{
             backgroundColor: "#0544AF",
             color: "white",
             borderRadius: "0.5rem",
-            fontSize: "2rem",
-            p: "0.2rem",
             cursor: "pointer",
-            visibility: currentQuestion === 0 ? "hidden" : "visible",
           }}
-        />
-        <ArrowDownwardIcon
+          disabled={currentQuestion === 0}
+        >
+          <ExpandLessOutlinedIcon
+            style={{ color: currentQuestion === 0 ? "#adadad" : "white" }}
+          />
+        </Button>
+
+        <Button
           onClick={handleNext}
           sx={{
             backgroundColor: "#0544AF",
             color: "white",
             borderRadius: "0.5rem",
-            fontSize: "2rem",
-            p: "0.2rem",
             cursor: "pointer",
           }}
-        />
+          disabled={currentQuestion === 11}
+        >
+          <ExpandMoreOutlinedIcon />
+        </Button>
       </Box>
     </Box>
   );
