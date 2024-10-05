@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Box, Typography, TextField, Button } from "@mui/material";
+import {
+  Box,
+  Typography,
+  TextField,
+  Button,
+  LinearProgress,
+} from "@mui/material";
 import RadioGroup from "@mui/joy/RadioGroup";
 import Radio from "@mui/joy/Radio";
 import Sheet from "@mui/joy/Sheet";
@@ -10,6 +16,7 @@ import "../style/test1.css";
 import WarningRoundedIcon from "@mui/icons-material/WarningRounded";
 import { PhoneInput } from "react-international-phone";
 import "react-international-phone/style.css";
+import { useMediaQuery, createTheme } from "@mui/material";
 
 const Test1 = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -17,6 +24,9 @@ const Test1 = () => {
   const [answers, setAnswers] = useState({});
   const [required, setRequired] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const progress = (currentQuestion / 11) * 100;
+  const theme = createTheme();
+  const isXs = useMediaQuery(theme.breakpoints.down("xs"));
 
   const [user, setUser] = useState({
     Age: "",
@@ -29,8 +39,8 @@ const Test1 = () => {
     DescOfJob: "",
     Income: "",
     Goal: "",
-    Obstacles:"",
-    DirectInvest:""
+    Obstacles: "",
+    DirectInvest: "",
   });
 
   useEffect(() => {
@@ -72,13 +82,16 @@ const Test1 = () => {
   const handleNext = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const currentAnswer = answers[currentQuestion];
+    const requiredQuestions = [0, 1, 3, 4, 5, 8, 10];
 
-    if (currentAnswer === undefined || currentAnswer === "") {
+    if (
+      requiredQuestions.includes(currentQuestion) &&
+      (currentAnswer === undefined || currentAnswer === "")
+    ) {
       setRequired(true);
       setErrorMessage("Please fill this in");
       return;
     }
-
     if (currentQuestion === 3 && !emailRegex.test(currentAnswer)) {
       setRequired(true);
       setErrorMessage("Email is not valid");
@@ -118,6 +131,7 @@ const Test1 = () => {
   };
   return (
     <Box sx={{ height: "100vh", overflow: "hidden", position: "relative" }}>
+      <LinearProgress variant="determinate" value={progress} />
       <TransitionGroup>
         <CSSTransition key={currentQuestion} timeout={300} classNames="fade">
           <Box
@@ -131,7 +145,7 @@ const Test1 = () => {
               transition: "opacity 0.3s ease-in-out",
             }}
           >
-            {/* Question 0 */}
+            {/* Question 0- Age* */}
             {currentQuestion === 0 && (
               <>
                 <Typography
@@ -147,7 +161,7 @@ const Test1 = () => {
                   <span style={{ color: "#0445AF", marginRight: "5px" }}>
                     1.
                   </span>
-                  How old are you?
+                  How old are you?*
                 </Typography>
                 <RadioGroup
                   sx={{ width: { xs: "300px", sm: "400px" }, gap: 1.5 }}
@@ -222,10 +236,10 @@ const Test1 = () => {
                     2.
                   </span>
                   What's your{" "}
-                  <span style={{ fontWeight: "700" }}>First Name</span>?
+                  <span style={{ fontWeight: "700" }}>First Name</span>?*
                 </Typography>
                 <TextField
-                autoFocus
+                  autoFocus
                   variant="standard"
                   placeholder="Jane"
                   sx={{
@@ -291,10 +305,10 @@ const Test1 = () => {
                   </span>
                   What's your{" "}
                   <span style={{ fontWeight: "700" }}>Last Name</span>,{" "}
-                  {formatName(user?.Name)}?*
+                  {formatName(user?.Name)}?
                 </Typography>
                 <TextField
-                autoFocus
+                  autoFocus
                   variant="standard"
                   placeholder="Smith"
                   sx={{
@@ -359,7 +373,7 @@ const Test1 = () => {
                   <span style={{ color: "#0445AF", marginRight: "5px" }}>
                     4.
                   </span>
-                  What's your best email, {formatName(user?.Name)}?
+                  What's your best email, {formatName(user?.Name)}?*
                 </Typography>
                 <Typography
                   sx={{
@@ -375,7 +389,7 @@ const Test1 = () => {
                   100% correct)
                 </Typography>
                 <TextField
-                autoFocus
+                  autoFocus
                   variant="standard"
                   type="email"
                   placeholder="name@example.com"
@@ -441,7 +455,7 @@ const Test1 = () => {
                   <span style={{ color: "#0445AF", marginRight: "5px" }}>
                     5.
                   </span>
-                  What's your WhatsApp Number, {formatName(user?.Name)}?
+                  What's your WhatsApp Number, {formatName(user?.Name)}?*
                 </Typography>
                 <Typography
                   sx={{
@@ -465,7 +479,7 @@ const Test1 = () => {
                   }}
                 >
                   <PhoneInput
-                  autoFocus
+                    autoFocus
                     defaultCountry="IRE"
                     defaultValue=""
                     value={answers[currentQuestion] || ""}
@@ -552,7 +566,7 @@ const Test1 = () => {
                   <span style={{ color: "#0445AF", marginRight: "5px" }}>
                     6.
                   </span>
-                  What's your Instagram username, {formatName(user?.Name)}?
+                  What's your Instagram username, {formatName(user?.Name)}?*
                 </Typography>
                 <TextField
                   autoFocus
@@ -700,7 +714,7 @@ const Test1 = () => {
                   </span>
                 </Typography>
                 <TextField
-                autoFocus
+                  autoFocus
                   variant="standard"
                   placeholder="Type your answer here..."
                   sx={{
@@ -765,8 +779,9 @@ const Test1 = () => {
                   <span style={{ color: "#0445AF", marginRight: "5px" }}>
                     9.
                   </span>
-                  What's your about{" "}
-                  <span style={{ fontWeight: "700" }}> yearly income?</span>
+                  What's your{" "}
+                  <span style={{ fontWeight: "700" }}> yearly income?</span>(in
+                  USD)*
                 </Typography>
                 <TextField
                   autoFocus
@@ -842,7 +857,7 @@ const Test1 = () => {
                 </Typography>
 
                 <TextField
-                autoFocus
+                  autoFocus
                   variant="standard"
                   placeholder="Type your answer here..."
                   sx={{
@@ -910,11 +925,11 @@ const Test1 = () => {
                   What are the{" "}
                   <span style={{ fontWeight: "700" }}>biggest obstacles</span>{" "}
                   that keep you from achieving your goal,{" "}
-                  {formatName(user?.Name)}?
+                  {formatName(user?.Name)}?*
                 </Typography>
 
                 <TextField
-                autoFocus
+                  autoFocus
                   variant="standard"
                   placeholder="Type your answer here..."
                   sx={{
@@ -962,7 +977,7 @@ const Test1 = () => {
                 </Box>
               </>
             )}
-            {/* Question 11 - Obstacle */}
+            {/* Question 11 - Direct Invest* */}
             {currentQuestion === 11 && (
               <>
                 <Typography
@@ -972,7 +987,7 @@ const Test1 = () => {
                     fontSize: "1.3rem",
                     letterSpacing: "0.03rem",
                     textAlign: "left",
-                    width: { xs: "300px", sm: "500px" },
+                    width: { xs: "300px", sm: "400px" },
                   }}
                 >
                   <span style={{ color: "#0445AF", marginRight: "5px" }}>
@@ -984,21 +999,26 @@ const Test1 = () => {
                   achieve them?
                 </Typography>
 
-                <TextField
-                autoFocus
-                  variant="standard"
-                  placeholder="Type your answer here..."
-                  sx={{
-                    width: { xs: "300px", sm: "500px" },
-                    mt: 2,
-                    "& .MuiInputBase-input": {
-                      color: "#0445AF",
-                      fontSize: "1.2rem",
-                    },
-                  }}
+                <RadioGroup
+                  sx={{ width: { xs: "300px", sm: "400px" }, gap: 1.5 }}
                   value={answers[currentQuestion] || ""}
-                  onChange={handleInputChange}
-                />
+                  onChange={handleRadioChange}
+                >
+                  {[
+                    "Below $1000",
+                    "$1000-$2000",
+                    "$2000-$5000",
+                    "$5000-$10,000",
+                    "$10,000+",
+                  ].map((value) => (
+                    <Sheet
+                      key={value}
+                      sx={{ p: 2, borderRadius: "sm", boxShadow: "sm" }}
+                    >
+                      <Radio label={value} overlay disableIcon value={value} />
+                    </Sheet>
+                  ))}
+                </RadioGroup>
 
                 <Box
                   sx={{
@@ -1031,65 +1051,159 @@ const Test1 = () => {
                     <Box sx={{ height: "2rem" }}></Box>
                   )}
                 </Box>
-
-                <Box>
-                  <Button
-                    variant="contained"
-                    sx={{
-                      width: "5rem",
-                      mt: "2rem",
-                      backgroundColor: "#0445AF",
-                    }}
-                    onClick={handleSubmit}
-                  >
-                    Submit
-                  </Button>
-                </Box>
               </>
             )}
           </Box>
         </CSSTransition>
       </TransitionGroup>
       {/* Arrow Icons */}
-      <Box
-        sx={{
-          position: "fixed",
-          zIndex: 3,
-          bottom: "2rem",
-          right: "2rem",
-          display: "flex",
-          gap: "0.5rem",
-          justifyContent: "center",
-        }}
-      >
-        <Button
-          onClick={handlePrev}
+      {isXs ? (
+        <Box
           sx={{
-            backgroundColor: "#0544AF",
-            color: "white",
-            borderRadius: "0.5rem",
-            cursor: "pointer",
+            position: "absolute",
+            zIndex: 3,
+            bottom: "2rem",
+            display: "flex",
+            justifyContent: "center",
+            width: "100%",
           }}
-          disabled={currentQuestion === 0}
         >
-          <ExpandLessOutlinedIcon
-            style={{ color: currentQuestion === 0 ? "#adadad" : "white" }}
-          />
-        </Button>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "0.5rem",
+              width: "100%",
+            }}
+          >
+            {currentQuestion == 11 && (
+              <Box sx={{ display: "flex", justifyContent: "center" }}>
+                <Button
+                  variant="contained"
+                  sx={{
+                    width: "5rem",
+                    backgroundColor: "#0445AF",
+                  }}
+                  onClick={handleSubmit}
+                >
+                  Submit
+                </Button>
+              </Box>
+            )}
 
-        <Button
-          onClick={handleNext}
+            <Box
+              sx={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "flex-end",
+                gap: "0.5rem",
+                pr: "1rem",
+              }}
+            >
+              <Button
+                onClick={handlePrev}
+                sx={{
+                  backgroundColor: "#0544AF",
+                  color: "white",
+                  borderRadius: "0.5rem",
+                  cursor: "pointer",
+                }}
+                disabled={currentQuestion === 0}
+              >
+                <ExpandLessOutlinedIcon
+                  style={{ color: currentQuestion === 0 ? "#adadad" : "white" }}
+                />
+              </Button>
+
+              <Button
+                onClick={handleNext}
+                sx={{
+                  backgroundColor: "#0544AF",
+                  color: "white",
+                  borderRadius: "0.5rem",
+                  cursor: "pointer",
+                }}
+                disabled={currentQuestion === 11}
+              >
+                <ExpandMoreOutlinedIcon />
+              </Button>
+            </Box>
+          </Box>
+        </Box>
+      ) : (
+        <Box
           sx={{
-            backgroundColor: "#0544AF",
-            color: "white",
-            borderRadius: "0.5rem",
-            cursor: "pointer",
+            position: "absolute",
+            zIndex: 3,
+            bottom: "2rem",
+            display: "flex",
+            justifyContent: "center",
+            width: "100%",
           }}
-          disabled={currentQuestion === 11}
         >
-          <ExpandMoreOutlinedIcon />
-        </Button>
-      </Box>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "0.5rem",
+              width: "100%",
+            }}
+          >
+            {currentQuestion == 11 && (
+              <Box sx={{ display: "flex", justifyContent: "center" }}>
+                <Button
+                  variant="contained"
+                  sx={{
+                    width: "5rem",
+                    backgroundColor: "#0445AF",
+                  }}
+                  onClick={handleSubmit}
+                >
+                  Submit
+                </Button>
+              </Box>
+            )}
+
+            <Box
+              sx={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "flex-end",
+                gap: "0.5rem",
+                pr: "1rem",
+              }}
+            >
+              <Button
+                onClick={handlePrev}
+                sx={{
+                  backgroundColor: "#0544AF",
+                  color: "white",
+                  borderRadius: "0.5rem",
+                  cursor: "pointer",
+                }}
+                disabled={currentQuestion === 0}
+              >
+                <ExpandLessOutlinedIcon
+                  style={{ color: currentQuestion === 0 ? "#adadad" : "white" }}
+                />
+              </Button>
+
+              <Button
+                onClick={handleNext}
+                sx={{
+                  backgroundColor: "#0544AF",
+                  color: "white",
+                  borderRadius: "0.5rem",
+                  cursor: "pointer",
+                }}
+                disabled={currentQuestion === 11}
+              >
+                <ExpandMoreOutlinedIcon />
+              </Button>
+            </Box>
+          </Box>
+        </Box>
+      )}
     </Box>
   );
 };
