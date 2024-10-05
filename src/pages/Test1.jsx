@@ -16,7 +16,7 @@ import "../style/test1.css";
 import WarningRoundedIcon from "@mui/icons-material/WarningRounded";
 import { PhoneInput } from "react-international-phone";
 import "react-international-phone/style.css";
-import { useMediaQuery, createTheme } from "@mui/material";
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
 const Test1 = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -25,8 +25,7 @@ const Test1 = () => {
   const [required, setRequired] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const progress = (currentQuestion / 11) * 100;
-  const theme = createTheme();
-  const isXs = useMediaQuery(theme.breakpoints.down("xs"));
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 400); 
 
   const [user, setUser] = useState({
     Age: "",
@@ -42,6 +41,18 @@ const Test1 = () => {
     Obstacles: "",
     DirectInvest: "",
   });
+
+  const handleResize = () => {
+    setIsMobile(window.innerWidth < 400);
+  };
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []); 
+
 
   useEffect(() => {
     setUser({
@@ -140,7 +151,7 @@ const Test1 = () => {
               height: "100vh",
               display: "flex",
               flexDirection: "column",
-              justifyContent: "center",
+              mt:"2rem",
               alignItems: "center",
               transition: "opacity 0.3s ease-in-out",
             }}
@@ -1024,7 +1035,7 @@ const Test1 = () => {
                   sx={{
                     display: "flex",
                     flexDirection: "column",
-                    width: { xs: "300px", sm: "500px" },
+                    width: { xs: "300px", sm: "400px" },
                   }}
                 >
                   {required ? (
@@ -1051,33 +1062,8 @@ const Test1 = () => {
                     <Box sx={{ height: "2rem" }}></Box>
                   )}
                 </Box>
-              </>
-            )}
-          </Box>
-        </CSSTransition>
-      </TransitionGroup>
-      {/* Arrow Icons */}
-      {isXs ? (
-        <Box
-          sx={{
-            position: "absolute",
-            zIndex: 3,
-            bottom: "2rem",
-            display: "flex",
-            justifyContent: "center",
-            width: "100%",
-          }}
-        >
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              gap: "0.5rem",
-              width: "100%",
-            }}
-          >
-            {currentQuestion == 11 && (
-              <Box sx={{ display: "flex", justifyContent: "center" }}>
+                {(currentQuestion == 11 && !isMobile) && (
+              <Box sx={{ display: "flex", justifyContent: "center", mt:"1.5rem" }}>
                 <Button
                   variant="contained"
                   sx={{
@@ -1090,16 +1076,24 @@ const Test1 = () => {
                 </Button>
               </Box>
             )}
-
-            <Box
-              sx={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "flex-end",
-                gap: "0.5rem",
-                pr: "1rem",
-              }}
-            >
+              </>
+            )}
+          </Box>
+        </CSSTransition>
+      </TransitionGroup>
+      {/* Arrow Icons */}
+      {isMobile ? (
+        <Box
+          sx={{
+            position: "absolute",
+            zIndex: 3,
+            bottom: "1rem",
+            width: "100%",
+            p:"0.5rem",
+            display:"flex",
+            gap:"0.5rem",
+          }}
+        >
               <Button
                 onClick={handlePrev}
                 sx={{
@@ -1107,10 +1101,11 @@ const Test1 = () => {
                   color: "white",
                   borderRadius: "0.5rem",
                   cursor: "pointer",
+
                 }}
                 disabled={currentQuestion === 0}
               >
-                <ExpandLessOutlinedIcon
+                <ArrowBackIosIcon
                   style={{ color: currentQuestion === 0 ? "#adadad" : "white" }}
                 />
               </Button>
@@ -1122,20 +1117,26 @@ const Test1 = () => {
                   color: "white",
                   borderRadius: "0.5rem",
                   cursor: "pointer",
+                  width:"80%"
                 }}
                 disabled={currentQuestion === 11}
               >
-                <ExpandMoreOutlinedIcon />
-              </Button>
+                {currentQuestion===11? 
+                
+                <Typography sx={{color:"white", fontSize:"1.1rem"}}>Submit</Typography>
+                : 
+                <Typography sx={{color:"white", fontSize:"1.1rem"}}>OK</Typography>
+
+               }
+
+          </Button>
             </Box>
-          </Box>
-        </Box>
       ) : (
         <Box
           sx={{
             position: "absolute",
             zIndex: 3,
-            bottom: "2rem",
+            bottom: "1rem",
             display: "flex",
             justifyContent: "center",
             width: "100%",
@@ -1149,20 +1150,7 @@ const Test1 = () => {
               width: "100%",
             }}
           >
-            {currentQuestion == 11 && (
-              <Box sx={{ display: "flex", justifyContent: "center" }}>
-                <Button
-                  variant="contained"
-                  sx={{
-                    width: "5rem",
-                    backgroundColor: "#0445AF",
-                  }}
-                  onClick={handleSubmit}
-                >
-                  Submit
-                </Button>
-              </Box>
-            )}
+          
 
             <Box
               sx={{
