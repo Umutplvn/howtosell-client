@@ -17,6 +17,7 @@ import WarningRoundedIcon from "@mui/icons-material/WarningRounded";
 import { PhoneInput } from "react-international-phone";
 import "react-international-phone/style.css";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import axios from "axios";
 
 const Test1 = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -28,18 +29,18 @@ const Test1 = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 400); 
 
   const [user, setUser] = useState({
-    Age: "",
-    Name: "",
-    Lastname: "",
-    Email: "",
-    Phone: "",
-    Instagram: "",
-    Occupation: "",
-    DescOfJob: "",
-    Income: "",
-    Goal: "",
-    Obstacles: "",
-    DirectInvest: "",
+    age: "",
+    name: "",
+    lastname: "",
+    email: "",
+    phone: "",
+    instagram: "",
+    occupation: "",
+    descOfJob: "",
+    income: "",
+    goal: "",
+    obstacles: "",
+    directInvest: "",
   });
 
   const handleResize = () => {
@@ -56,18 +57,18 @@ const Test1 = () => {
 
   useEffect(() => {
     setUser({
-      Age: answers[0] || "",
-      Name: answers[1] || "",
-      Lastname: answers[2] || "",
-      Email: answers[3] || "",
-      Phone: answers[4] || "",
-      Instagram: answers[5] || "",
-      Occupation: answers[6] || "",
-      DescOfJob: answers[7] || "",
-      Income: answers[8] || "",
-      Goal: answers[9] || "",
-      Obstacles: answers[10] || "",
-      DirectInvest: answers[11] || "",
+      age: answers[0] || "",
+      name: answers[1] || "",
+      lastname: answers[2] || "",
+      email: answers[3] || "",
+      phone: answers[4] || "",
+      instagram: answers[5] || "",
+      occupation: answers[6] || "",
+      descOfJob: answers[7] || "",
+      income: answers[8] || "",
+      goal: answers[9] || "",
+      obstacles: answers[10] || "",
+      directInvest: answers[11] || "",
     });
   }, [answers]);
 
@@ -130,16 +131,25 @@ const Test1 = () => {
     return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async(e) => {
+    e.preventDefault();
     const currentAnswer = answers[currentQuestion];
+    try {
 
     if (currentAnswer === undefined || currentAnswer === "") {
       setRequired(true);
       setErrorMessage("Please fill this in");
       return;
+    }    
+      const data=await axios.post('https://howtosell-server.onrender.com/create', user);
+   console.log(data, data);
+    } catch (error) {
+      console.error('Error submitting the form:', error);
     }
-    console.log(user);
   };
+
+  console.log("object", user);
+
   return (
     <Box sx={{ height: "100vh", overflow: "hidden", position: "relative" }}>
       <LinearProgress variant="determinate" value={progress} />
@@ -316,7 +326,7 @@ const Test1 = () => {
                   </span>
                   What's your{" "}
                   <span style={{ fontWeight: "700" }}>Last Name</span>,{" "}
-                  {formatName(user?.Name)}?
+                  {formatName(user?.name)}?
                 </Typography>
                 <TextField
                   autoFocus
@@ -384,7 +394,7 @@ const Test1 = () => {
                   <span style={{ color: "#0445AF", marginRight: "5px" }}>
                     4.
                   </span>
-                  What's your best email, {formatName(user?.Name)}?*
+                  What's your best email, {formatName(user?.name)}?*
                 </Typography>
                 <Typography
                   sx={{
@@ -466,7 +476,7 @@ const Test1 = () => {
                   <span style={{ color: "#0445AF", marginRight: "5px" }}>
                     5.
                   </span>
-                  What's your WhatsApp Number, {formatName(user?.Name)}?*
+                  What's your WhatsApp Number, {formatName(user?.name)}?*
                 </Typography>
                 <Typography
                   sx={{
@@ -577,7 +587,7 @@ const Test1 = () => {
                   <span style={{ color: "#0445AF", marginRight: "5px" }}>
                     6.
                   </span>
-                  What's your Instagram username, {formatName(user?.Name)}?*
+                  What's your Instagram username, {formatName(user?.name)}?*
                 </Typography>
                 <TextField
                   autoFocus
@@ -645,7 +655,7 @@ const Test1 = () => {
                   <span style={{ color: "#0445AF", marginRight: "5px" }}>
                     7.
                   </span>
-                  What's your current occupation, {formatName(user?.Name)}?
+                  What's your current occupation, {formatName(user?.name)}?
                 </Typography>
                 <RadioGroup
                   sx={{ width: { xs: "300px", sm: "400px" }, gap: 1.5 }}
@@ -717,7 +727,7 @@ const Test1 = () => {
                   <span style={{ color: "#0445AF", marginRight: "5px" }}>
                     8.
                   </span>
-                  {formatName(user?.Name)}, please let us know a little bit
+                  {formatName(user?.name)}, please let us know a little bit
                   about{" "}
                   <span style={{ fontWeight: "700" }}>
                     {" "}
@@ -861,7 +871,7 @@ const Test1 = () => {
                     10.
                   </span>
                   What are your goals for sales and business,{" "}
-                  {formatName(user?.Name)}?
+                  {formatName(user?.name)}?
                   <br />
                   How much would you like to earn per year within next 12
                   months?
@@ -936,7 +946,7 @@ const Test1 = () => {
                   What are the{" "}
                   <span style={{ fontWeight: "700" }}>biggest obstacles</span>{" "}
                   that keep you from achieving your goal,{" "}
-                  {formatName(user?.Name)}?*
+                  {formatName(user?.name)}?*
                 </Typography>
 
                 <TextField
@@ -1123,7 +1133,7 @@ const Test1 = () => {
               >
                 {currentQuestion===11? 
                 
-                <Typography sx={{color:"white", fontSize:"1.1rem"}}>Submit</Typography>
+                <Button sx={{color:"white", fontSize:"1.1rem"}} onClick={handleSubmit}>Submit</Button>
                 : 
                 <Typography sx={{color:"white", fontSize:"1.1rem"}}>OK</Typography>
 
