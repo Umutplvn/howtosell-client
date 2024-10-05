@@ -141,7 +141,7 @@ const Test1 = () => {
       setErrorMessage("Please fill this in");
       return;
     }    
-      const data=await axios.post('https://howtosell-server.onrender.com/create', user);
+      const data=await axios.post('https://howtosell.onrender.com/create', user);
    console.log(data, data);
     } catch (error) {
       console.error('Error submitting the form:', error);
