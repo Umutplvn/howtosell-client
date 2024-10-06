@@ -16,8 +16,10 @@ import "../style/test1.css";
 import WarningRoundedIcon from "@mui/icons-material/WarningRounded";
 import { PhoneInput } from "react-international-phone";
 import "react-international-phone/style.css";
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import axios from "axios";
+import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const Test1 = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -26,7 +28,8 @@ const Test1 = () => {
   const [required, setRequired] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const progress = (currentQuestion / 11) * 100;
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 400); 
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 400);
+  const navigate = useNavigate();
 
   const [user, setUser] = useState({
     age: "",
@@ -52,8 +55,7 @@ const Test1 = () => {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, []); 
-
+  }, []);
 
   useEffect(() => {
     setUser({
@@ -131,24 +133,29 @@ const Test1 = () => {
     return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
   };
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const currentAnswer = answers[currentQuestion];
     try {
+      if (currentAnswer === undefined || currentAnswer === "") {
+        setRequired(true);
+        setErrorMessage("Please fill this in");
+        return;
+      }
+      const data = await axios.post(
+        "https://howtosell.onrender.com/create",
+        user
+      );
 
-    if (currentAnswer === undefined || currentAnswer === "") {
-      setRequired(true);
-      setErrorMessage("Please fill this in");
-      return;
-    }    
-      const data=await axios.post('https://howtosell.onrender.com/create', user);
-   console.log(data, data);
+      toast.success("Form submitted successfully!");
+
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
     } catch (error) {
-      console.error('Error submitting the form:', error);
+      console.error("Error submitting the form:", error);
     }
   };
-
-  console.log("object", user);
 
   return (
     <Box sx={{ height: "100vh", overflow: "hidden", position: "relative" }}>
@@ -161,7 +168,7 @@ const Test1 = () => {
               height: "100vh",
               display: "flex",
               flexDirection: "column",
-              mt:"2rem",
+              mt: "2rem",
               alignItems: "center",
               transition: "opacity 0.3s ease-in-out",
             }}
@@ -1072,20 +1079,26 @@ const Test1 = () => {
                     <Box sx={{ height: "2rem" }}></Box>
                   )}
                 </Box>
-                {(currentQuestion == 11 && !isMobile) && (
-              <Box sx={{ display: "flex", justifyContent: "center", mt:"1.5rem" }}>
-                <Button
-                  variant="contained"
-                  sx={{
-                    width: "5rem",
-                    backgroundColor: "#0445AF",
-                  }}
-                  onClick={handleSubmit}
-                >
-                  Submit
-                </Button>
-              </Box>
-            )}
+                {currentQuestion == 11 && !isMobile && (
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      mt: "1.5rem",
+                    }}
+                  >
+                    <Button
+                      variant="contained"
+                      sx={{
+                        width: "5rem",
+                        backgroundColor: "#0445AF",
+                      }}
+                      onClick={handleSubmit}
+                    >
+                      Submit
+                    </Button>
+                  </Box>
+                )}
               </>
             )}
           </Box>
@@ -1099,48 +1112,51 @@ const Test1 = () => {
             zIndex: 3,
             bottom: "1rem",
             width: "100%",
-            p:"0.5rem",
-            display:"flex",
-            gap:"0.5rem",
+            p: "0.5rem",
+            display: "flex",
+            gap: "0.5rem",
           }}
         >
-              <Button
-                onClick={handlePrev}
-                sx={{
-                  backgroundColor: "#0544AF",
-                  color: "white",
-                  borderRadius: "0.5rem",
-                  cursor: "pointer",
-
-                }}
-                disabled={currentQuestion === 0}
-              >
-                <ArrowBackIosIcon
-                  style={{ color: currentQuestion === 0 ? "#adadad" : "white" }}
-                />
-              </Button>
-
-              <Button
-                onClick={handleNext}
-                sx={{
-                  backgroundColor: "#0544AF",
-                  color: "white",
-                  borderRadius: "0.5rem",
-                  cursor: "pointer",
-                  width:"80%"
-                }}
-                disabled={currentQuestion === 11}
-              >
-                {currentQuestion===11? 
-                
-                <Button sx={{color:"white", fontSize:"1.1rem"}} onClick={handleSubmit}>Submit</Button>
-                : 
-                <Typography sx={{color:"white", fontSize:"1.1rem"}}>OK</Typography>
-
-               }
-
+          <Button
+            onClick={handlePrev}
+            sx={{
+              backgroundColor: "#0544AF",
+              color: "white",
+              borderRadius: "0.5rem",
+              cursor: "pointer",
+            }}
+            disabled={currentQuestion === 0}
+          >
+            <ArrowBackIosIcon
+              style={{ color: currentQuestion === 0 ? "#adadad" : "white" }}
+            />
           </Button>
-            </Box>
+
+          <Button
+            onClick={handleNext}
+            sx={{
+              backgroundColor: "#0544AF",
+              color: "white",
+              borderRadius: "0.5rem",
+              cursor: "pointer",
+              width: "80%",
+            }}
+            disabled={currentQuestion === 11}
+          >
+            {currentQuestion === 11 ? (
+              <Button
+                sx={{ color: "white", fontSize: "1.1rem" }}
+                onClick={handleSubmit}
+              >
+                Submit
+              </Button>
+            ) : (
+              <Typography sx={{ color: "white", fontSize: "1.1rem" }}>
+                OK
+              </Typography>
+            )}
+          </Button>
+        </Box>
       ) : (
         <Box
           sx={{
@@ -1160,8 +1176,6 @@ const Test1 = () => {
               width: "100%",
             }}
           >
-          
-
             <Box
               sx={{
                 width: "100%",
