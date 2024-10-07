@@ -12,15 +12,15 @@ const DbMain = () => {
   useEffect(() => {
     setTimeout(() => {
       setShowMessageBox(true);
-    }, 1000);
+    }, 500);
   }, []);
 
   const GradientTypography = styled(Typography)({
-    background: "linear-gradient(45deg, #3e74a6, #1aafb2, #e19b39)",
+    background: "linear-gradient(45deg, #485b6d, #278789, #e13939)",
     WebkitBackgroundClip: "text",
     WebkitTextFillColor: "transparent",
     fontSize: "1.2rem",
-    fontFamily: "Helvetica",
+    fontFamily: "Helvetica sans-seri",
     fontWeight: 600,
     marginTop: "0.3rem",
     marginBottom: "-1rem",
@@ -42,12 +42,13 @@ const DbMain = () => {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
+       
       }}
     >
       <Typography
         sx={{
-          fontSize: "2rem",
-          fontFamily: "Bebas Neue sans-serif",
+          fontSize: "1.8rem",
+          fontFamily: "Helvetica sans-seri",
           fontWeight: "900",
           color: "#3b3b3b",
           mt: "3rem",
@@ -76,6 +77,7 @@ const DbMain = () => {
       <Box
         sx={{
           width: "100%",
+          maxWidth:"900px",
           mt: "2rem",
           transition: "opacity 0.5s ease-in-out",
           transitionDelay: "1.5s",
@@ -86,8 +88,8 @@ const DbMain = () => {
         <Typography
           sx={{
             ml: "2rem",
-            fontFamily: "sans-serif",
-            fontSize: "1.1rem",
+            fontFamily: "Helvetica sans-serif",
+            fontSize: "1.05rem",
             fontWeight: "700",
             color: "#535353",
           }}
@@ -97,9 +99,9 @@ const DbMain = () => {
         <Typography
           sx={{
             m: "1rem 2rem",
-            fontFamily: "sans-serif",
+            fontFamily: "Helvetica sans-seri",
             fontSize: "1rem",
-            color: "#363636",
+            color: "#000000",
           }}
         >
           Secure and reliable data storage for seamless data management,
@@ -124,9 +126,9 @@ const DbMain = () => {
             color: "#242424",
             borderRadius: "1rem",
             width: "5rem",
-            transition: "0.4s",
+            transition: "0.3s",
             "&:hover": {
-              backgroundColor: "#537c87",
+              backgroundColor: "#000000",
               color: "white",
             },
           }}
@@ -140,9 +142,9 @@ const DbMain = () => {
             color: "#242424",
             borderRadius: "1rem",
             width: "5rem",
-            transition: "0.4s",
+            transition: "0.3s",
             "&:hover": {
-              backgroundColor: "#537c87",
+              backgroundColor: "#000000",
               color: "white",
             },
           }}
