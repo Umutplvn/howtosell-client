@@ -38,6 +38,31 @@ const Register = () => {
 
   return (
       <Box sx={{ textAlign: "center", mt: "1rem", p: "0.5rem" }}>
+          {loading && (
+        <Box
+        sx={{
+          width: "100%",
+          height: "100%",
+          position: "fixed",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: "rgba(255, 255, 255, 0.7)", 
+          zIndex: 2,
+        }}
+        >
+       <Box
+            sx={{
+              width: "100%",
+              height: "100%",
+              position: "absolute",
+              top: "-1rem",
+              left: 0,
+              backdropFilter: "blur(5px)", // Apply blur to the background
+            }}
+          />
+        </Box>
+      )}
         <Typography
         onClick={()=>navigate("/")}
           sx={{
@@ -162,7 +187,7 @@ Join Us and Get Started!
           <Button
             type="submit"
             variant="contained"
-            disabled={true}
+            onClick={handleSubmit}
             sx={{
               mt: 3,
               mb: 2,

@@ -15,7 +15,7 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [info, setInfo] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
-  const navigate=useNavigate()
+  const navigate = useNavigate();
   const handleChange = (e) => {
     e.preventDefault();
     setInfo({ ...info, [e.target.name]: e.target.value });
@@ -36,174 +36,196 @@ const Login = () => {
   };
 
   return (
-      <Box sx={{ textAlign: "center", mt: "1rem", p: "0.5rem" }}>
-        <Typography
-        onClick={()=>navigate("/")}
-          sx={{
-            color: "#000000",
-            fontSize: "1.6rem",
-            mb: "3rem",
-            fontFamily: "Helvetica sans-serif",
-            fontWeight: "700",
-            cursor:"pointer"
-          }}
+    <Box sx={{ textAlign: "center", mt: "1rem", p: "0.5rem" }}>
+      {loading && (
+        <Box
+        sx={{
+          width: "100%",
+          height: "100%",
+          position: "fixed",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: "rgba(255, 255, 255, 0.7)", 
+          zIndex: 3
+        }}
         >
-          HOW TO SELL
-        </Typography>
-        <Typography
-          sx={{
-            fontFamily: "Helvetica Neue sans-serif",
-            fontSize: "1.3rem",
-            color: "#585858",
-            mb: "2rem",
-          }}
-        >
-          Hello, who's this?
-        </Typography>
+       <Box
+            sx={{
+              width: "100%",
+              height: "100%",
+              position: "absolute",
+              top: "-1rem",
+              left: 0,
+              backdropFilter: "blur(5px)", 
+            }}
+          />
+          <img
+            src="https://i.gifer.com/ZKZg.gif"
+            alt="loading"
+            style={{
+              width: "3rem",
+              zIndex: "3",
+            }}
+          />
+        </Box>
+      )}
+      <Typography
+        onClick={() => navigate("/")}
+        sx={{
+          color: "#000000",
+          fontSize: "1.6rem",
+          mb: "3rem",
+          fontFamily: "Helvetica sans-serif",
+          fontWeight: "700",
+          cursor: "pointer",
+        }}
+      >
+        HOW TO SELL
+      </Typography>
+      <Typography
+        sx={{
+          fontFamily: "Helvetica Neue sans-serif",
+          fontSize: "1.3rem",
+          color: "#585858",
+          mb: "2rem",
+        }}
+      >
+        Hello, who's this?
+      </Typography>
 
-        <Box component="form" onSubmit={(e) => handleSubmit(e)} sx={{ mt: 3 }}>
+      <Box component="form" onSubmit={(e) => handleSubmit(e)} sx={{ mt: 3 }}>
+        <Box
+          container
+          spacing={2}
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            flexDirection: "column",
+          }}
+        >
           <Box
-            container
-            spacing={2}
             sx={{
+              mb: "1rem",
               display: "flex",
-              alignItems: "center",
+              alignItems: "flex-start",
               flexDirection: "column",
+              maxWidth: "500px",
             }}
           >
-            <Box
-              sx={{
-                mb: "1rem",
-                display: "flex",
-                alignItems: "flex-start",
-                flexDirection: "column",
-                maxWidth: "500px",
-              }}
+            <Typography
+              sx={{ fontSize: "0.9rem", color: "#656464", textAlign: "left" }}
             >
-              <Typography
-                sx={{ fontSize: "0.9rem", color: "#656464", textAlign: "left" }}
-              >
-                Email
-              </Typography>
-              <FormControl sx={{ width: "320px" }}>
-                <OutlinedInput
+              Email
+            </Typography>
+            <FormControl sx={{ width: "320px" }}>
+              <OutlinedInput
                 required
-                  placeholder="bruce@wayne.com"
-                  name="email"
-                  onChange={(e) => handleChange(e)}
-                />
-              </FormControl>
-            </Box>
-
-            <Box
-              sx={{
-                mb: "1rem",
-                display: "flex",
-                alignItems: "flex-start",
-                flexDirection: "column",
-                maxWidth: "500px",
-              }}
-            >
-              <Typography
-                sx={{ fontSize: "0.9rem", color: "#656464", textAlign: "left" }}
-              >
-                Password
-              </Typography>
-              <FormControl sx={{ width: "320px" }}>
-                <OutlinedInput
-                required
-                  placeholder="At least 8 characters"
-                  type={showPassword ? "text" : "password"}
-                  name="password"
-                  onChange={(e) => handleChange(e)}
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <div
-                        onClick={handleClickShowPassword}
-                        style={{ cursor: "pointer" }}
-                      >
-                        {showPassword ? (
-                          <VisibilityIcon />
-                        ) : (
-                          <VisibilityOffIcon />
-                        )}
-                      </div>
-                    </InputAdornment>
-                  }
-                />
-              </FormControl>
-            </Box>
+                placeholder="bruce@wayne.com"
+                name="email"
+                onChange={(e) => handleChange(e)}
+              />
+            </FormControl>
           </Box>
-          <Button
-            type="submit"
-            variant="contained"
-            disabled={loading}
+
+          <Box
             sx={{
-              mt: 3,
-              mb: 2,
-              pl: 4,
-              pr: 4,
-              backgroundColor: "#F2F2F2",
-              color: "#242424",
-              borderRadius: "1rem",
-              width: "8rem",
-              transition: "0.3s",
-              "&:hover": {
-                backgroundColor: "#000000",
-                color: "white",
-              },
+              mb: "1rem",
+              display: "flex",
+              alignItems: "flex-start",
+              flexDirection: "column",
+              maxWidth: "500px",
             }}
           >
-            Sign in
-          </Button>
-          <Box>
-            <Box
-              display={{ position: "relative" }}
-              sx={{ width: "%100", display: "flex", justifyContent: "center"}}
+            <Typography
+              sx={{ fontSize: "0.9rem", color: "#656464", textAlign: "left" }}
             >
-              {loading && (
-                <img
-                  src="https://i.gifer.com/ZKZg.gif"
-                  alt="loading"
-                  style={{
-                    width: "2rem",
-                    position: "absolute",
-                    zIndex: "3",
-                    top: "50%",
-                  }}
-                />
-              )}
-            </Box>
+              Password
+            </Typography>
+            <FormControl sx={{ width: "320px" }}>
+              <OutlinedInput
+                required
+                placeholder="At least 8 characters"
+                type={showPassword ? "text" : "password"}
+                name="password"
+                onChange={(e) => handleChange(e)}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <div
+                      onClick={handleClickShowPassword}
+                      style={{ cursor: "pointer" }}
+                    >
+                      {showPassword ? (
+                        <VisibilityIcon />
+                      ) : (
+                        <VisibilityOffIcon />
+                      )}
+                    </div>
+                  </InputAdornment>
+                }
+              />
+            </FormControl>
           </Box>
+        </Box>
+        <Button
+          type="submit"
+          variant="contained"
+          disabled={loading}
+          sx={{
+            mt: 3,
+            mb: 2,
+            pl: 4,
+            pr: 4,
+            backgroundColor: "#F2F2F2",
+            color: "#242424",
+            borderRadius: "1rem",
+            width: "8rem",
+            transition: "0.3s",
+            "&:hover": {
+              backgroundColor: "#000000",
+              color: "white",
+            },
+          }}
+        >
+          Sign in
+        </Button>
+        <Box>
+ 
 
-            <Box
-              sx={{ display: "flex", flexDirection: "column", gap: "0.5rem", alignItems:"center"}}
-            >
-              <Link
-                sx={{
-                  color: "#797979",
-                  textDecoration: "none",
-                  "&:hover": { color: "#000000" },
-                }}
-              >
-                Forgot password?
-              </Link>
+        </Box>
 
-              <Link
-                href="/dbmain/register"
-                sx={{
-                  color: "#797979",
-                  textDecoration: "none",
-                  width:"100px",
-                  "&:hover": { color: "#000000" },
-                }}
-              >
-                Sign up
-              </Link>
-            </Box>
-        
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "0.5rem",
+            alignItems: "center",
+          }}
+        >
+          <Link
+            sx={{
+              color: "#797979",
+              textDecoration: "none",
+              "&:hover": { color: "#000000" },
+            }}
+          >
+            Forgot password?
+          </Link>
+
+          <Link
+            href="/dbmain/register"
+            sx={{
+              color: "#797979",
+              textDecoration: "none",
+              width: "100px",
+              "&:hover": { color: "#000000" },
+            }}
+          >
+            Sign up
+          </Link>
         </Box>
       </Box>
+    </Box>
   );
 };
 
