@@ -13,6 +13,7 @@ import {
   updateSuccess,
 } from "../features/authSlice";
 import { logoutDataSuccess } from "../features/dataSlice";
+
 const useAuthCall = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -23,7 +24,7 @@ const useAuthCall = () => {
     dispatch(fetchStart());
     try {
       const { data } = await axios.post(
-        `${process.env.REACT_APP_BASE_URL}/users/register/`,
+        `${process.env.REACT_APP_API_URL}/control/admin/create`,
         userData
       );
       dispatch(registerSuccess(data));
@@ -40,7 +41,7 @@ const useAuthCall = () => {
     dispatch(fetchStart());
     try {
       const { data } = await axios.post(
-        `${process.env.REACT_APP_BASE_URL}/auth/login/`,
+        `${process.env.REACT_APP_API_URL}/auth/login/`,
         userData
       );
       if (!data?.result?.verified) {
@@ -62,7 +63,7 @@ const useAuthCall = () => {
     dispatch(fetchStart());
     try {
       const { data } = await axios.post(
-        `${process.env.REACT_APP_BASE_URL}/users/forgotpass`,
+        `${process.env.REACT_APP_API_URL}/users/forgotpass`,
         email
       );
       toast("Check your email to reset your password.");
@@ -78,7 +79,7 @@ const useAuthCall = () => {
     dispatch(fetchStart());
     try {
       const { data } = await axiosWithToken.post(
-        `${process.env.REACT_APP_BASE_URL}/users/createuser/`,
+        `${process.env.REACT_APP_API_URL}/users/createuser/`,
         userData
       );
       listUsers();
@@ -94,7 +95,7 @@ const useAuthCall = () => {
     dispatch(fetchStart());
     try {
       const { data } = await axios.delete(
-        `${process.env.REACT_APP_BASE_URL}/users/${userId}`
+        `${process.env.REACT_APP_API_URL}/users/${userId}`
       );
       listUsers();
       toast.success("User successfully deleted.");
@@ -109,7 +110,7 @@ const useAuthCall = () => {
   //   dispatch(fetchStart());
   //   try {
   //     await axiosWithToken.delete(
-  //       `${process.env.REACT_APP_BASE_URL}/users/${userId}`
+  //       `${process.env.REACT_APP_API_URL}/users/${userId}`
   //     );
   //     logoutSuccess();
   //     toast.success("User successfully deleted.");
@@ -124,7 +125,7 @@ const useAuthCall = () => {
     dispatch(fetchStart());
     try {
       const { data } = await axiosWithToken.put(
-        `${process.env.REACT_APP_BASE_URL}/users/${userId}`,
+        `${process.env.REACT_APP_API_URL}/users/${userId}`,
         updateData
       );
       dispatch(updateSuccess(data));
@@ -140,7 +141,7 @@ const useAuthCall = () => {
     dispatch(fetchStart());
     try {
       await axiosWithToken.put(
-        `${process.env.REACT_APP_BASE_URL}/users/${userId}`,
+        `${process.env.REACT_APP_API_URL}/users/${userId}`,
         updateData
       );
       listUsers();
@@ -157,7 +158,7 @@ const useAuthCall = () => {
     dispatch(fetchStart());
     try {
       const { data } = await axiosWithToken.get(
-        `${process.env.REACT_APP_BASE_URL}/users/`
+        `${process.env.REACT_APP_API_URL}/users/`
       );
       dispatch(usersSuccess(data));
     } catch (error) {
@@ -170,7 +171,7 @@ const useAuthCall = () => {
   const passwordUpdate = async (password) => {
     try {
       const res = await axiosWithToken.put(
-        `${process.env.REACT_APP_BASE_URL}/users/updatepass`,
+        `${process.env.REACT_APP_API_URL}/users/updatepass`,
         password
       );
       dispatch(passwordUpdateSuccess(res));
@@ -204,7 +205,7 @@ const useAuthCall = () => {
       localStorage.clear();
       await axios.post(`${process.env.REACT_APP_BASE_URL}/auth/logout/`);
       dispatch(logoutSuccess());
-      dispatch(logoutDataSuccess());
+      // dispatch(logoutDataSuccess());
       toast.success("Logout successfull");
     } catch (error) {
       dispatch(fetchFail());

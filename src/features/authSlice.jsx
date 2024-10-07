@@ -52,7 +52,7 @@ export const authSlice = createSlice({
       state.name=payload?.result?.name;
       state.password=payload?.result?.password
       state.userId = payload?.result?._id;
-      state.email = payload?.result?.email;h
+      state.email = payload?.result?.email;
 
     },
 

@@ -6,6 +6,7 @@ import DbMain from "../pages/DbMain";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import ForgotPass from "../pages/ForgotPass";
+import Verification from "../pages/Verification";
 
 const AppRouter = () => {
   return (
@@ -13,6 +14,7 @@ const AppRouter = () => {
       <Route path="/dbmain" element={<DbMain/>}/>
       <Route path="/dbmain/login" element={<Login/>}/>
       <Route path="/dbmain/register" element={<Register/>}/>
+      <Route path="/dbmain/verification" element={<Verification/>}/>
       <Route path="/dbmain/forgotpass" element={<ForgotPass/>}/>
       <Route path="/" element={<Main />} />
       <Route path="/application" element={<Test1 />} />
