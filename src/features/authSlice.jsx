@@ -10,6 +10,8 @@ export const authSlice = createSlice({
     email:null,
     password:"",
     name:"",
+    passcode:"",
+
   },
 
   reducers: {
@@ -29,7 +31,9 @@ export const authSlice = createSlice({
       state.userId = payload?.result?._id;
       state.email=payload?.result?.email;
       state.name=payload?.result?.name;
-      state.password=payload?.result?.password
+      state.password=payload?.result?.password;
+      state.passcode = payload?.passcode;
+
     },
 
     loginSuccess: (state, { payload }) => {
@@ -65,6 +69,8 @@ export const authSlice = createSlice({
     state.email=null;
     state.name="";
     state.password="";
+    state.passcode="";
+
     },
   },
 });
