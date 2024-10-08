@@ -9,19 +9,25 @@ import ForgotPass from "../pages/ForgotPass";
 import Verification from "../pages/Verification";
 import Db from "../pages/Db";
 import ResetForgottenPass from "../pages/ResetForgottenPass";
+import PrivateRouter from "../pages/PrivateRouter";
 
 const AppRouter = () => {
   return (
     <Routes>
-      <Route path="/dbmain" element={<DbMain/>}/>
+
+
+      <Route path="/" element={<Main />} />
       <Route path="/dbmain/login" element={<Login/>}/>
       <Route path="/dbmain/register" element={<Register/>}/>
       <Route path="/dbmain/verification" element={<Verification/>}/>
       <Route path="/dbmain/forgotpass" element={<ForgotPass/>}/>
       <Route path="/reset-password/:userId" element={<ResetForgottenPass />} />
-      <Route path="/db" element={<Db/>}/>
-      <Route path="/" element={<Main />} />
       <Route path="/application" element={<Test1 />} />
+      <Route path="/dbmain" element={<DbMain/>}/>
+
+      <Route path="/" element={<PrivateRouter />}>
+      <Route path="/db" element={<Db/>}/>
+    </Route>
     </Routes>
   );
 };

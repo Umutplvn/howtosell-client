@@ -76,7 +76,7 @@ const ResetForgottenPass = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     {
-      info.password.length < 8
+      info?.password.length < 8
         ? toast.error("Password must be at least 8 character.", {
             style: customErrorStyle,
           })

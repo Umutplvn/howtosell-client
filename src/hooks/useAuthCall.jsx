@@ -129,6 +129,7 @@ const useAuthCall = () => {
             `${process.env.REACT_APP_API_URL}/control/admin/updateforgettenpass/${userId}`,
             {password}
           );
+          console.log("passwordUpdateSuccess", res);
 
           dispatch(passwordUpdateSuccess(res));
           toast.success("Password Changed Successfully");
