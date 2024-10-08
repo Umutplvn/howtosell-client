@@ -11,15 +11,16 @@ import {
   logoutSuccess,
   passwordUpdateSuccess,
   updateSuccess,
+  // usersSuccess
 } from "../features/authSlice";
-import { logoutDataSuccess } from "../features/dataSlice";
+// import { logoutDataSuccess } from "../features/dataSlice";
 
 const useAuthCall = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { axiosWithToken } = useAxios();
 
-  //! REGISTER FUNCTION
+  //* REGISTER FUNCTION
   const register = async (userData) => {
     dispatch(fetchStart());
     try {
@@ -28,7 +29,7 @@ const useAuthCall = () => {
         userData
       );
       dispatch(registerSuccess(data));
-      navigate("/verification");
+      navigate("/dbmain/verification");
     } catch (error) {
       console.log("Error during registration:", error?.response?.data?.message);
       dispatch(fetchFail());
@@ -36,12 +37,56 @@ const useAuthCall = () => {
     }
   };
 
-  //! LOGIN FUNCTION
+   //* DELETE ADMIN
+   const deleteUser = async (userId) => {
+    dispatch(fetchStart());
+    try {
+      const { data } = await axios.delete(
+        `${process.env.REACT_APP_API_URL}/control/admin/delete`, { data: { userId } }
+      );
+    } catch (error) {
+      dispatch(fetchFail());
+      console.error(error);
+    }
+  };
+
+
+    //* UPDATE ADMIN PROFILE
+    const update = async (userData) => {
+      dispatch(fetchStart());
+      try {
+        const { data } = await axiosWithToken.put(
+          `${process.env.REACT_APP_API_URL}/control/admin/update`,{ data:{userData}});
+    
+          dispatch(updateSuccess(data));
+          toast.success("Profile updated successfully");
+      } catch (error) {
+        dispatch(fetchFail());
+        toast.error(error);
+      }
+    };
+
+//* VERIFICATION
+    const verify = async (userId) => {
+      dispatch(fetchStart());
+      try {
+        const { data } = await axiosWithToken.put(
+          `${process.env.REACT_APP_API_URL}/control/admin/verify/${userId}`);
+    
+          dispatch(updateSuccess(data));
+          toast.success("Profile updated successfully");
+      } catch (error) {
+        dispatch(fetchFail());
+        toast.error(error);
+      }
+    };
+
+  //* LOGIN FUNCTION
   const login = async (userData) => {
     dispatch(fetchStart());
     try {
       const { data } = await axios.post(
-        `${process.env.REACT_APP_API_URL}/auth/login/`,
+        `${process.env.REACT_APP_API_URL}/control/auth/login/`,
         userData
       );
       if (!data?.result?.verified) {
@@ -49,8 +94,8 @@ const useAuthCall = () => {
         toast.error("No such account found!");
       } else {
         dispatch(loginSuccess(data));
-        toast.success("Welcome to the DEFI");
-        navigate("/blogs");
+        toast.success("Welcome to the How To Sell!");
+        navigate("/db");
       }
     } catch (error) {
       dispatch(fetchFail());
@@ -63,7 +108,7 @@ const useAuthCall = () => {
     dispatch(fetchStart());
     try {
       const { data } = await axios.post(
-        `${process.env.REACT_APP_API_URL}/users/forgotpass`,
+        `${process.env.REACT_APP_API_URL}/control/admin/forgotpass`,
         email
       );
       toast("Check your email to reset your password.");
@@ -90,20 +135,7 @@ const useAuthCall = () => {
     }
   };
 
-  //! DELETE A USER
-  const deleteUser = async (userId) => {
-    dispatch(fetchStart());
-    try {
-      const { data } = await axios.delete(
-        `${process.env.REACT_APP_API_URL}/users/${userId}`
-      );
-      listUsers();
-      toast.success("User successfully deleted.");
-    } catch (error) {
-      dispatch(fetchFail());
-      toast.error("User delete failed!");
-    }
-  };
+ 
 
   //! DELETE ACCOUNT
   // const deleteAccount = async (userId) => {
@@ -120,21 +152,7 @@ const useAuthCall = () => {
   //   }
   // };
 
-  //! UPDATE PROFILE
-  const update = async (userId, updateData) => {
-    dispatch(fetchStart());
-    try {
-      const { data } = await axiosWithToken.put(
-        `${process.env.REACT_APP_API_URL}/users/${userId}`,
-        updateData
-      );
-      dispatch(updateSuccess(data));
-      toast.success("Profile updated successfully");
-    } catch (error) {
-      dispatch(fetchFail());
-      toast.error(error);
-    }
-  };
+
 
   //! UPDATE A MEMBER
   const updateUser = async (userId, updateData) => {
@@ -160,7 +178,7 @@ const useAuthCall = () => {
       const { data } = await axiosWithToken.get(
         `${process.env.REACT_APP_API_URL}/users/`
       );
-      dispatch(usersSuccess(data));
+      // dispatch(usersSuccess(data));
     } catch (error) {
       dispatch(fetchFail());
     }
@@ -225,7 +243,8 @@ const useAuthCall = () => {
     listUsers,
     passwordUpdate,
     updateUser,
-    forgottenPasswordUpdate
+    forgottenPasswordUpdate,
+    verify
   };
 };
 

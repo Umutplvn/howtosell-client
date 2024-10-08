@@ -11,6 +11,7 @@ export const authSlice = createSlice({
     password:"",
     name:"",
     passcode:"",
+    isVerified:""
 
   },
 
@@ -33,7 +34,6 @@ export const authSlice = createSlice({
       state.name=payload?.result?.name;
       state.password=payload?.result?.password;
       state.passcode = payload?.passcode;
-
     },
 
     loginSuccess: (state, { payload }) => {
@@ -53,6 +53,7 @@ export const authSlice = createSlice({
       state.password=payload?.result?.password
       state.userId = payload?.result?._id;
       state.email = payload?.result?.email;
+      state.isVerified = payload?.result?.verified;
 
     },
 

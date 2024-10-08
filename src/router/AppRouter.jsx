@@ -7,6 +7,7 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import ForgotPass from "../pages/ForgotPass";
 import Verification from "../pages/Verification";
+import Db from "../pages/Db";
 
 const AppRouter = () => {
   return (
@@ -16,6 +17,7 @@ const AppRouter = () => {
       <Route path="/dbmain/register" element={<Register/>}/>
       <Route path="/dbmain/verification" element={<Verification/>}/>
       <Route path="/dbmain/forgotpass" element={<ForgotPass/>}/>
+      <Route path="/db" element={<Db/>}/>
       <Route path="/" element={<Main />} />
       <Route path="/application" element={<Test1 />} />
     </Routes>

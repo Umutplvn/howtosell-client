@@ -9,9 +9,10 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { InputAdornment } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import useAuthCall from "../hooks/useAuthCall";
 
 const Login = () => {
-  // const { login } = useAuthCall();
+  const { login } = useAuthCall();
   const [loading, setLoading] = useState(false);
   const [info, setInfo] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
@@ -25,7 +26,7 @@ const Login = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      // await login(info);
+      await login(info);
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -203,7 +204,9 @@ const Login = () => {
           }}
         >
           <Link
+                      href="/dbmain/forgotpass"
             sx={{
+              cursor:"pointer",
               color: "#797979",
               textDecoration: "none",
               "&:hover": { color: "#000000" },
@@ -215,6 +218,7 @@ const Login = () => {
           <Link
             href="/dbmain/register"
             sx={{
+              cursor:"pointer",
               color: "#797979",
               textDecoration: "none",
               width: "100px",
