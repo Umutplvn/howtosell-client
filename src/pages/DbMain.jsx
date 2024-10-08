@@ -48,7 +48,7 @@ const DbMain = () => {
       <Typography
         sx={{
           fontSize: "1.8rem",
-          fontFamily: "Helvetica sans-seri",
+          fontFamily: "Helvetica sans-serif",
           fontWeight: "900",
           color: "#3b3b3b",
           mt: "3rem",

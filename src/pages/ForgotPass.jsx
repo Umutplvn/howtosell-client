@@ -7,7 +7,7 @@ import loadingGif from "../assets/loading.gif";
 import useAuthCall from "../hooks/useAuthCall";
 
 const ForgotPass = () => {
-  const { forgotPass } = useAuthCall();
+  const { forgotPassword } = useAuthCall();
   const [loading, setLoading] = useState(false);
   const [info, setInfo] = useState({
     email: "",
@@ -31,8 +31,7 @@ const ForgotPass = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      await forgotPass({ email: info.email });
-      toast.success("Check your email for further instructions.");
+      await forgotPassword({ email: info.email });
     } catch (error) {
       toast.error("Request failed. Please try again.", {
         style: customErrorStyle,

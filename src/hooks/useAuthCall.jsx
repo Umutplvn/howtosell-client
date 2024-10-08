@@ -103,8 +103,8 @@ const useAuthCall = () => {
     }
   };
 
-  //! FORGOT PASSWORD (TO GET EMAIL)
-  const forgotPass = async (email) => {
+  //* FORGOT PASSWORD (TO GET EMAIL)
+  const forgotPassword = async (email) => {
     dispatch(fetchStart());
     try {
       const { data } = await axios.post(
@@ -237,7 +237,7 @@ const useAuthCall = () => {
     register,
     createNewUser,
     logout,
-    forgotPass,
+    forgotPassword,
     deleteUser,
     update,
     listUsers,
