@@ -32,7 +32,6 @@ const ResetForgottenPass = () => {
     setShowPassword(!showPassword);
   };
 
-  console.log(confirm, info);
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
@@ -104,7 +103,7 @@ const ResetForgottenPass = () => {
             src={loadingGif}
             alt="loading"
             style={{
-              width: "5rem",
+              width: "3rem",
               position: "absolute",
               zIndex: "3",
               top: "50%",

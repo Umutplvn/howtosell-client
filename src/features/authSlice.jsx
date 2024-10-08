@@ -57,6 +57,11 @@ export const authSlice = createSlice({
 
     },
 
+    forgotPasswordTokenSuccess:(state, {payload})=>{
+      state.token=payload?.Token
+
+    },
+
     passwordUpdateSuccess:(state, { payload }) => {
       state.password=payload?.data?.result?.password
     },
@@ -83,7 +88,8 @@ export const {
   logoutSuccess,
   registerSuccess,
   passwordUpdateSuccess,
-  updateSuccess
+  updateSuccess,
+  forgotPasswordTokenSuccess
 
 } = authSlice.actions;
 

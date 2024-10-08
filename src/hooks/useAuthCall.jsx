@@ -11,6 +11,7 @@ import {
   logoutSuccess,
   passwordUpdateSuccess,
   updateSuccess,
+  forgotPasswordTokenSuccess
   // usersSuccess
 } from "../features/authSlice";
 // import { logoutDataSuccess } from "../features/dataSlice";
@@ -74,7 +75,7 @@ const useAuthCall = () => {
           `${process.env.REACT_APP_API_URL}/control/admin/verify/${userId}`);
     
           dispatch(updateSuccess(data));
-          toast.success("Profile updated successfully");
+          toast.success("Success!");
       } catch (error) {
         dispatch(fetchFail());
         toast.error(error);
@@ -111,6 +112,8 @@ const useAuthCall = () => {
         `${process.env.REACT_APP_API_URL}/control/admin/forgotpass`,
         email
       );
+
+      dispatch(forgotPasswordTokenSuccess(data))
       toast("Check your email to reset your password.");
     } catch (error) {
       console.log("Error during registration:", error?.response?.data?.message);
@@ -118,6 +121,22 @@ const useAuthCall = () => {
       toast.error(error?.response?.data?.message);
     }
   };
+
+      //* UPDATE FORGOTTEN PASSWORD
+      const forgottenPasswordUpdate = async (password, userId) => {
+        try {
+          const res = await axiosWithToken.put(
+            `${process.env.REACT_APP_API_URL}/control/admin/updateforgettenpass/${userId}`,
+            {password}
+          );
+
+          dispatch(passwordUpdateSuccess(res));
+          toast.success("Password Changed Successfully");
+        } catch (error) {
+          dispatch(fetchFail());
+          toast.error("Failed to change password");
+        }
+      };
 
   //! CREAT A NEW ADMIN
   const createNewUser = async (userData) => {
@@ -200,21 +219,7 @@ const useAuthCall = () => {
     }
   };
 
-    //! UPDATE FORGOTTEN PASSWORD
-    const forgottenPasswordUpdate = async (password, userId) => {
-      try {
-        const res = await axiosWithToken.put(
-          `${process.env.REACT_APP_BASE_URL}/users/updateforgottenpass/${userId}`,
-          {password}
-        );
-        dispatch(passwordUpdateSuccess(res));
-        navigate('/login')
-        toast.success("Password Changed Successfully");
-      } catch (error) {
-        dispatch(fetchFail());
-        toast.error("Failed to change password");
-      }
-    };
+
 
   //! LOGOUT FUNCTION
   const logout = async () => {
