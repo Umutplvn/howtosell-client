@@ -7,7 +7,7 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import ForgotPass from "../pages/ForgotPass";
 import Verification from "../pages/Verification";
-import Db from "../pages/Db";
+import Dashboard from "../pages/Dashboard";
 import ResetForgottenPass from "../pages/ResetForgottenPass";
 import PrivateRouter from "../pages/PrivateRouter";
 
@@ -26,7 +26,7 @@ const AppRouter = () => {
       <Route path="/dbmain" element={<DbMain/>}/>
 
       <Route path="/" element={<PrivateRouter />}>
-      <Route path="/db" element={<Db/>}/>
+      <Route path="/dashboard" element={<Dashboard/>}/>
     </Route>
     </Routes>
   );

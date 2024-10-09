@@ -11,7 +11,8 @@ export const authSlice = createSlice({
     password:"",
     name:"",
     passcode:"",
-    isVerified:""
+    isVerified:"",
+    owner:""
 
   },
 
@@ -34,6 +35,7 @@ export const authSlice = createSlice({
       state.name=payload?.result?.name;
       state.password=payload?.result?.password;
       state.passcode = payload?.passcode;
+      state.owner = payload?.result?.owner;
     },
 
     loginSuccess: (state, { payload }) => {
@@ -44,6 +46,8 @@ export const authSlice = createSlice({
       state.email = payload?.result?.email;
       state.name=payload?.result?.name;
       state.password=payload?.result?.password
+      state.owner = payload?.result?.owner;
+
     },
 
     updateSuccess: (state, { payload }) => {
@@ -54,7 +58,9 @@ export const authSlice = createSlice({
       state.userId = payload?.result?._id;
       state.email = payload?.result?.email;
       state.isVerified = payload?.result?.verified;
-      state.authorization=payload?.result?.authorization
+      state.authorization=payload?.result?.authorization;
+      state.owner = payload?.result?.owner;
+      state.token = payload?.Token;
     },
 
     forgotPasswordTokenSuccess:(state, {payload})=>{
@@ -65,10 +71,13 @@ export const authSlice = createSlice({
     passwordUpdateSuccess:(state, { payload }) => {
       state.password=payload?.data?.result?.password
       state.name=payload?.data?.result?.name;
-      state.password=payload?.data?.result?.password
       state.userId = payload?.data?.result?._id;
       state.email = payload?.data?.result?.email;
+      state.owner = payload?.data?.result?.owner;
       state.isVerified = payload?.data?.result?.verified;
+      state.authorization=payload?.result?.authorization;
+      state.token = payload?.data?.Token;
+
     },
 
 

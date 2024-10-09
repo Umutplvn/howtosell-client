@@ -56,7 +56,8 @@ const ResetForgottenPass = () => {
     setLoading(true);
     try {
       await forgottenPasswordUpdate(info.password, userId);
-      navigate("/db");
+      navigate("/dashboard");
+
     } catch (error) {
       toast.error("Registration failed. Please try again.", {
         style: customErrorStyle,
