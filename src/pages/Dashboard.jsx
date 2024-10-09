@@ -4,57 +4,48 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { createTheme } from '@mui/material/styles';
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import BarChartIcon from '@mui/icons-material/BarChart';
-import DescriptionIcon from '@mui/icons-material/Description';
-import LayersIcon from '@mui/icons-material/Layers';
+import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
 import { AppProvider } from '@toolpad/core/AppProvider';
 import { DashboardLayout } from '@toolpad/core/DashboardLayout';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import DashboardPage from '../components/DashboardPage';
+import UsersPage from '../components/UsersPage';
+import StatsPage from '../components/StatsPage';
+import Profile from '../components/Profile';
 
 const NAVIGATION = [
-  {
-    kind: 'header',
-    title: 'Main items',
-  },
+
   {
     segment: 'dashboard',
     title: 'Dashboard',
-    icon: <DashboardIcon />,
+    icon: <DashboardIcon />
+  },
+
+  {
+  
+    segment: 'stats',
+    title: 'Stats',
+    icon: <BarChartIcon />
+},
+  {
+    kind: 'divider',
   },
   {
-    segment: 'orders',
-    title: 'Orders',
-    icon: <ShoppingCartIcon />,
+    segment: 'users',
+    title: 'Users',
+    icon: <SupervisorAccountIcon />,
   },
   {
     kind: 'divider',
   },
   {
-    kind: 'header',
-    title: 'Analytics',
+    segment: 'profile',
+    title: 'Profile',
+    icon: <AccountCircleIcon />,
   },
-  {
-    segment: 'reports',
-    title: 'Reports',
-    icon: <BarChartIcon />,
-    children: [
-      {
-        segment: 'sales',
-        title: 'Sales',
-        icon: <DescriptionIcon />,
-      },
-      {
-        segment: 'traffic',
-        title: 'Traffic',
-        icon: <DescriptionIcon />,
-      },
-    ],
-  },
-  {
-    segment: 'integrations',
-    title: 'Integrations',
-    icon: <LayersIcon />,
-  },
+  
+
 ];
 
 const demoTheme = createTheme({
@@ -89,6 +80,25 @@ const demoTheme = createTheme({
 });
 
 function DemoPageContent({ pathname }) {
+  let content;
+
+  switch (pathname) {
+    case '/dashboard':
+      content = <DashboardPage />;
+      break;
+    case '/users':
+      content = <UsersPage />;
+      break;
+    case '/stats':
+      content = <StatsPage />;
+      break;
+    case '/profile':
+      content = <Profile />;
+      break;
+    default:
+      content = <Typography variant="h4">Page Not Found</Typography>;
+  }
+
   return (
     <Box
       sx={{
@@ -99,7 +109,7 @@ function DemoPageContent({ pathname }) {
         textAlign: 'center',
       }}
     >
-      <Typography>Dashboard content for {pathname}</Typography>
+      {content}
     </Box>
   );
 }
@@ -121,7 +131,6 @@ function DashboardLayoutBasic(props) {
     };
   }, [pathname]);
 
-  // Remove this const when copying and pasting into your project.
   const demoWindow = window !== undefined ? window() : undefined;
 
   return (
@@ -131,7 +140,7 @@ function DashboardLayoutBasic(props) {
       router={router}
       theme={demoTheme}
       window={demoWindow}
-      branding={{ title: "How To Sell", logo:"" }} // Doğru yol
+      branding={{ title: "How To Sell", logo:"" }} 
       >
       <DashboardLayout>
         <DemoPageContent pathname={pathname} />
