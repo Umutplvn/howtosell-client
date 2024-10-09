@@ -96,7 +96,7 @@ const useAuthCall = () => {
       } else {
         dispatch(loginSuccess(data));
         toast.success("Welcome to the How To Sell!");
-        navigate("/db");
+        navigate("/dashboard");
       }
     } catch (error) {
       dispatch(fetchFail());
