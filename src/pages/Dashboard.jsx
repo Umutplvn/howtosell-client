@@ -12,7 +12,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import DashboardPage from '../components/DashboardPage';
 import UsersPage from '../components/UsersPage';
 import StatsPage from '../components/StatsPage';
-import Profile from '../components/Profile';
+import Account from '../components/Account';
 
 const NAVIGATION = [
 
@@ -40,8 +40,8 @@ const NAVIGATION = [
     kind: 'divider',
   },
   {
-    segment: 'profile',
-    title: 'Profile',
+    segment: 'account',
+    title: 'Account',
     icon: <AccountCircleIcon />,
   },
   
@@ -92,8 +92,8 @@ function DemoPageContent({ pathname }) {
     case '/stats':
       content = <StatsPage />;
       break;
-    case '/profile':
-      content = <Profile />;
+    case '/account':
+      content = <Account />;
       break;
     default:
       content = <Typography variant="h4">Page Not Found</Typography>;

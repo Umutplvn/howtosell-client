@@ -60,7 +60,6 @@ export const authSlice = createSlice({
       state.isVerified = payload?.result?.verified;
       state.authorization=payload?.result?.authorization;
       state.owner = payload?.result?.owner;
-      state.token = payload?.Token;
     },
 
     forgotPasswordTokenSuccess:(state, {payload})=>{

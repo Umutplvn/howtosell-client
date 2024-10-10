@@ -53,13 +53,16 @@ const useAuthCall = () => {
 
 
     //* UPDATE ADMIN PROFILE
-    const update = async (userData) => {
+    const update = async (userData,userId) => {
       dispatch(fetchStart());
       try {
         const { data } = await axiosWithToken.put(
-          `${process.env.REACT_APP_API_URL}/control/admin/update`,{ data:{userData}});
+          `${process.env.REACT_APP_API_URL}/control/admin/update/${userId}`,userData);
     
           dispatch(updateSuccess(data));
+
+          console.log("res data",data);
+
           toast.success("Profile updated successfully");
       } catch (error) {
         dispatch(fetchFail());
