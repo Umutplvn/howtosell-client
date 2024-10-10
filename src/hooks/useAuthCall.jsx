@@ -12,7 +12,6 @@ import {
   passwordUpdateSuccess,
   updateSuccess,
   forgotPasswordTokenSuccess
-  // usersSuccess
 } from "../features/authSlice";
 // import { logoutDataSuccess } from "../features/dataSlice";
 
@@ -106,6 +105,20 @@ const useAuthCall = () => {
       toast.error("Invalid login. Please check your details and try again.");
     }
   };
+
+    //! LOGOUT FUNCTION
+    const logout = async () => {
+      dispatch(fetchStart());
+      try {
+        localStorage.clear();
+        await axios.post(`${process.env.REACT_APP_API_URL}/control/auth/logout/`);
+        dispatch(logoutSuccess());
+        toast.success("Logout successfull");
+      } catch (error) {
+        dispatch(fetchFail());
+        toast.error(error);
+      }
+    };
 
   //* FORGOT PASSWORD (TO GET EMAIL)
   const forgotPassword = async (email) => {
@@ -221,22 +234,6 @@ const useAuthCall = () => {
     }
   };
 
-
-
-  //! LOGOUT FUNCTION
-  const logout = async () => {
-    dispatch(fetchStart());
-    try {
-      localStorage.clear();
-      await axios.post(`${process.env.REACT_APP_BASE_URL}/auth/logout/`);
-      dispatch(logoutSuccess());
-      // dispatch(logoutDataSuccess());
-      toast.success("Logout successfull");
-    } catch (error) {
-      dispatch(fetchFail());
-      toast.error(error);
-    }
-  };
 
 
   return {

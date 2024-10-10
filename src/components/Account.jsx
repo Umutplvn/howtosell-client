@@ -14,7 +14,7 @@ const Account = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [info, setInfo] = useState({ name: "", password: "", userId });
   const [error, setError] = useState(false);
-  const { update } = useAuthCall();
+  const { update, logout } = useAuthCall();
 
   const style = {
     width: "5rem",
@@ -154,7 +154,7 @@ const Account = () => {
         <Button
           onClick={(e) => handleSubmit(e)}
           sx={{
-            mt: "3rem",
+            mt: "2rem",
             border: "1.5px solid #c9c9c9",
             backgroundColor: "#F2F2F2",
             color: "#242424",
@@ -169,6 +169,13 @@ const Account = () => {
         >
           UPDATE
         </Button>
+
+        <hr style={{marginTop:"1rem"}}/>
+
+        <Box sx={{mt:"1rem", display:"flex", justifyContent:"space-between"}}>
+        <Button sx={{color: "#797979", "&:hover": { color: "black" } }}>Delete Account</Button>
+        <Button onClick={()=>logout()} sx={{color: "#797979", "&:hover": { color: "black" } }}>Logout</Button>
+        </Box>
       </Box>
     </Box>
   );

@@ -43,10 +43,11 @@ const NAVIGATION = [
     segment: 'account',
     title: 'Account',
     icon: <AccountCircleIcon />,
-  },
-  
-
+  }
 ];
+
+
+
 
 const demoTheme = createTheme({
     palette: {

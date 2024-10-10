@@ -89,7 +89,9 @@ export const authSlice = createSlice({
     state.name="";
     state.password="";
     state.passcode="";
-
+    state.owner =false;
+    state.isVerified =false;
+    state.authorization=false
     },
   },
 });
