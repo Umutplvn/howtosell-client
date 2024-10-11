@@ -11,7 +11,7 @@ import {
   logoutSuccess,
   passwordUpdateSuccess,
   updateSuccess,
-  forgotPasswordTokenSuccess
+  forgotPasswordTokenSuccess,
 } from "../features/authSlice";
 // import { logoutDataSuccess } from "../features/dataSlice";
 
@@ -37,12 +37,13 @@ const useAuthCall = () => {
     }
   };
 
-   //* DELETE ADMIN
-   const deleteUser = async (userId) => {
+  //* DELETE ADMIN
+  const deleteUser = async (userId) => {
     dispatch(fetchStart());
     try {
       const { data } = await axios.delete(
-        `${process.env.REACT_APP_API_URL}/control/admin/delete`, { data: { userId } }
+        `${process.env.REACT_APP_API_URL}/control/admin/delete`,
+        { data: { userId } }
       );
     } catch (error) {
       dispatch(fetchFail());
@@ -50,39 +51,41 @@ const useAuthCall = () => {
     }
   };
 
+  //* UPDATE ADMIN PROFILE
+  const update = async (userData, userId) => {
+    dispatch(fetchStart());
+    try {
+      const { data } = await axiosWithToken.put(
+        `${process.env.REACT_APP_API_URL}/control/admin/update/${userId}`,
+        userData
+      );
 
-    //* UPDATE ADMIN PROFILE
-    const update = async (userData,userId) => {
-      dispatch(fetchStart());
-      try {
-        const { data } = await axiosWithToken.put(
-          `${process.env.REACT_APP_API_URL}/control/admin/update/${userId}`,userData);
-    
-          dispatch(updateSuccess(data));
+      dispatch(updateSuccess(data));
 
-          console.log("res data",data);
+      console.log("res data", data);
 
-          toast.success("Profile updated successfully");
-      } catch (error) {
-        dispatch(fetchFail());
-        toast.error(error);
-      }
-    };
+      toast.success("Profile updated successfully");
+    } catch (error) {
+      dispatch(fetchFail());
+      toast.error(error);
+    }
+  };
 
-//* VERIFICATION
-    const verify = async (userId) => {
-      dispatch(fetchStart());
-      try {
-        const { data } = await axiosWithToken.put(
-          `${process.env.REACT_APP_API_URL}/control/admin/verify/${userId}`);
-    
-          dispatch(updateSuccess(data));
-          toast.success("Success!");
-      } catch (error) {
-        dispatch(fetchFail());
-        toast.error(error);
-      }
-    };
+  //* VERIFICATION
+  const verify = async (userId) => {
+    dispatch(fetchStart());
+    try {
+      const { data } = await axiosWithToken.put(
+        `${process.env.REACT_APP_API_URL}/control/admin/verify/${userId}`
+      );
+
+      dispatch(updateSuccess(data));
+      toast.success("Success!");
+    } catch (error) {
+      dispatch(fetchFail());
+      toast.error(error);
+    }
+  };
 
   //* LOGIN FUNCTION
   const login = async (userData) => {
@@ -106,18 +109,35 @@ const useAuthCall = () => {
     }
   };
 
-    //! LOGOUT FUNCTION
-    const logout = async () => {
-      dispatch(fetchStart());
-      try {
-        await axiosWithToken.post(`${process.env.REACT_APP_API_URL}/control/auth/logout/`);
-        dispatch(logoutSuccess());
-        toast.success("Logout successfull");
-      } catch (error) {
-        dispatch(fetchFail());
-        toast.error(error);
-      }
-    };
+  //* LOGOUT FUNCTION
+  const logout = async () => {
+    dispatch(fetchStart());
+    try {
+      await axiosWithToken.post(
+        `${process.env.REACT_APP_API_URL}/control/auth/logout/`
+      );
+      dispatch(logoutSuccess());
+      toast.success("Logout successfull");
+    } catch (error) {
+      dispatch(fetchFail());
+      toast.error(error);
+    }
+  };
+
+  //* DELETE YOU OWN ACCOUNT
+  const deleteAccount = async (userId) => {
+    dispatch(fetchStart());
+    try {
+      await axiosWithToken.delete(
+        `${process.env.REACT_APP_API_URL}/control/admin/delete`,
+        { data: { userId } }
+      );
+      dispatch(logoutSuccess());
+    } catch (error) {
+      dispatch(fetchFail());
+      toast.error("User delete failed!");
+    }
+  };
 
   //* FORGOT PASSWORD (TO GET EMAIL)
   const forgotPassword = async (email) => {
@@ -128,7 +148,7 @@ const useAuthCall = () => {
         email
       );
 
-      dispatch(forgotPasswordTokenSuccess(data))
+      dispatch(forgotPasswordTokenSuccess(data));
       toast("Check your email to reset your password.");
     } catch (error) {
       console.log("Error during registration:", error?.response?.data?.message);
@@ -137,20 +157,20 @@ const useAuthCall = () => {
     }
   };
 
-      //* UPDATE FORGOTTEN PASSWORD
-      const forgottenPasswordUpdate = async (password, userId) => {
-        try {
-          const res = await axiosWithToken.put(
-            `${process.env.REACT_APP_API_URL}/control/admin/updateforgettenpass/${userId}`,
-            {password}
-          );
-          dispatch(passwordUpdateSuccess(res));
-          toast.success("Password Changed Successfully");
-        } catch (error) {
-          dispatch(fetchFail());
-          toast.error("Failed to change password");
-        }
-      };
+  //* UPDATE FORGOTTEN PASSWORD
+  const forgottenPasswordUpdate = async (password, userId) => {
+    try {
+      const res = await axiosWithToken.put(
+        `${process.env.REACT_APP_API_URL}/control/admin/updateforgettenpass/${userId}`,
+        { password }
+      );
+      dispatch(passwordUpdateSuccess(res));
+      toast.success("Password Changed Successfully");
+    } catch (error) {
+      dispatch(fetchFail());
+      toast.error("Failed to change password");
+    }
+  };
 
   //! CREAT A NEW ADMIN
   const createNewUser = async (userData) => {
@@ -168,25 +188,6 @@ const useAuthCall = () => {
     }
   };
 
- 
-
-  //! DELETE ACCOUNT
-  // const deleteAccount = async (userId) => {
-  //   dispatch(fetchStart());
-  //   try {
-  //     await axiosWithToken.delete(
-  //       `${process.env.REACT_APP_API_URL}/users/${userId}`
-  //     );
-  //     logoutSuccess();
-  //     toast.success("User successfully deleted.");
-  //   } catch (error) {
-  //     dispatch(fetchFail());
-  //     toast.error("User delete failed!");
-  //   }
-  // };
-
-
-
   //! UPDATE A MEMBER
   const updateUser = async (userId, updateData) => {
     dispatch(fetchStart());
@@ -203,7 +204,6 @@ const useAuthCall = () => {
     }
   };
 
-
   //! LIST USERS
   const listUsers = async () => {
     dispatch(fetchStart());
@@ -216,7 +216,6 @@ const useAuthCall = () => {
       dispatch(fetchFail());
     }
   };
-
 
   //! UPDATE PASSWORD
   const passwordUpdate = async (password) => {
@@ -233,8 +232,6 @@ const useAuthCall = () => {
     }
   };
 
-
-
   return {
     login,
     register,
@@ -247,7 +244,8 @@ const useAuthCall = () => {
     passwordUpdate,
     updateUser,
     forgottenPasswordUpdate,
-    verify
+    verify,
+    deleteAccount,
   };
 };
 

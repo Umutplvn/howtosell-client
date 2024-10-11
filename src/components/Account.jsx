@@ -8,6 +8,7 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { InputAdornment } from "@mui/material";
 import WarningRoundedIcon from "@mui/icons-material/WarningRounded";
 import useAuthCall from "../hooks/useAuthCall";
+import BasicModal from "./DelAccModal";
 
 const Account = () => {
   const { name, email, userId } = useSelector((state) => state?.auth);
@@ -15,6 +16,7 @@ const Account = () => {
   const [info, setInfo] = useState({ name: "", password: "", userId });
   const [error, setError] = useState(false);
   const { update, logout } = useAuthCall();
+  const [open, setOpen] = useState(false);
 
   const style = {
     width: "5rem",
@@ -24,6 +26,7 @@ const Account = () => {
     display: "flex",
     alignItems: "flex-end",
   };
+  const handleOpen = () => setOpen(true);
 
   const handleChange = (e) => {
     setError(false);
@@ -58,6 +61,7 @@ const Account = () => {
     }
   };
 
+  console.log(userId);
 
   return (
     <Box
@@ -173,10 +177,13 @@ const Account = () => {
         <hr style={{marginTop:"1rem"}}/>
 
         <Box sx={{mt:"1rem", display:"flex", justifyContent:"space-between"}}>
-        <Button sx={{color: "#797979", "&:hover": { color: "black" } }}>Delete Account</Button>
+        <Button 
+         onClick={handleOpen}
+        sx={{color: "#797979", "&:hover": { color: "black" } }}>Delete Account</Button>
         <Button onClick={()=>logout()} sx={{color: "#797979", "&:hover": { color: "black" } }}>Logout</Button>
         </Box>
       </Box>
+      <BasicModal open={open} setOpen={setOpen}/>
     </Box>
   );
 };
