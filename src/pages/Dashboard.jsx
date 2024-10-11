@@ -13,62 +13,24 @@ import DashboardPage from '../components/DashboardPage';
 import UsersPage from '../components/UsersPage';
 import StatsPage from '../components/StatsPage';
 import Account from '../components/Account';
-
-const NAVIGATION = [
-
-  {
-    segment: 'dashboard',
-    title: 'Dashboard',
-    icon: <DashboardIcon />
-  },
-
-  {
-  
-    segment: 'stats',
-    title: 'Stats',
-    icon: <BarChartIcon />
-},
-  {
-    kind: 'divider',
-  },
-  {
-    segment: 'users',
-    title: 'Users',
-    icon: <SupervisorAccountIcon />,
-  },
-  {
-    kind: 'divider',
-  },
-  {
-    segment: 'account',
-    title: 'Account',
-    icon: <AccountCircleIcon />,
-  }
-];
-
-
-
+import { useSelector } from 'react-redux';
 
 const demoTheme = createTheme({
-    palette: {
-      primary:{
-        main:"#000000"
-      },
-      text: {
-        primary: '#000000', 
-        secondary: '#000000', 
-      },
-      action: {
-        hover: '#f0f0f0', 
-        active: '#000000',
-        selected:"black",
-        selectedOpacity:"0",
-        activatedOpacity:"black",
-        hoverOpacity:"black",
-    
-        
-      },
-   },
+  palette: {
+    primary: { main: "#000000" },
+    text: {
+      primary: '#000000',
+      secondary: '#000000',
+    },
+    action: {
+      hover: '#f0f0f0',
+      active: '#000000',
+      selected: "black",
+      selectedOpacity: "0",
+      activatedOpacity: "black",
+      hoverOpacity: "black",
+    },
+  },
   breakpoints: {
     values: {
       xs: 0,
@@ -82,13 +44,18 @@ const demoTheme = createTheme({
 
 function DemoPageContent({ pathname }) {
   let content;
+  const { owner } = useSelector((state) => state.auth);
 
   switch (pathname) {
     case '/dashboard':
       content = <DashboardPage />;
       break;
     case '/users':
-      content = <UsersPage />;
+      if (owner) {
+        content = <UsersPage />;
+      } else {
+        content = <Typography variant="h4">Access Denied</Typography>;
+      }
       break;
     case '/stats':
       content = <StatsPage />;
@@ -121,6 +88,7 @@ DemoPageContent.propTypes = {
 
 function DashboardLayoutBasic(props) {
   const { window } = props;
+  const { owner } = useSelector((state) => state?.auth); 
 
   const [pathname, setPathname] = React.useState('/dashboard');
 
@@ -132,30 +100,52 @@ function DashboardLayoutBasic(props) {
     };
   }, [pathname]);
 
+  const NAVIGATION = [
+    {
+      segment: 'dashboard',
+      title: 'Dashboard',
+      icon: <DashboardIcon />
+    },
+    {
+      segment: 'stats',
+      title: 'Stats',
+      icon: <BarChartIcon />
+    },
+    {
+      kind: 'divider',
+    },
+    ...(owner ? [{
+      segment: 'users',
+      title: 'Users',
+      icon: <SupervisorAccountIcon />,
+    }, {
+      kind: 'divider',
+    }] : []), 
+    {
+      segment: 'account',
+      title: 'Account',
+      icon: <AccountCircleIcon />,
+    }
+  ];
+
   const demoWindow = window !== undefined ? window() : undefined;
 
   return (
-    // preview-start
     <AppProvider
       navigation={NAVIGATION}
       router={router}
       theme={demoTheme}
       window={demoWindow}
-      branding={{ title: "How To Sell", logo:"" }} 
-      >
+      branding={{ title: "How To Sell", logo: "" }}
+    >
       <DashboardLayout>
         <DemoPageContent pathname={pathname} />
       </DashboardLayout>
     </AppProvider>
-    // preview-end
   );
 }
 
 DashboardLayoutBasic.propTypes = {
-  /**
-   * Injected by the documentation to work in an iframe.
-   * Remove this when copying and pasting into your project.
-   */
   window: PropTypes.func,
 };
 
