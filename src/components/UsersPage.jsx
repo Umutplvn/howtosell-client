@@ -18,10 +18,10 @@ import useAuthCall from "../hooks/useAuthCall";
 import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
 import PersonAddAlt1RoundedIcon from '@mui/icons-material/PersonAddAlt1Rounded';
 // import CreateModalUnstyled from "../components/CreateUserModal";
-
+import useDataCall from '../hooks/useDataCall'
 const Members = () => {
   const { users, userId } = useSelector((state) => state.auth);
-  const { listAdmins } = useAuthCall();
+  const { listAdmins } = useDataCall();
   const [search, setSearch] = useState("");
   const [open, setOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);

@@ -13,7 +13,6 @@ export const authSlice = createSlice({
     passcode:"",
     isVerified:"",
     owner:""
-
   },
 
   reducers: {

@@ -172,20 +172,6 @@ const useAuthCall = () => {
     }
   };
 
-    //! LIST ADMINS
-    const listAdmins = async () => {
-      dispatch(fetchStart());
-      try {
-        const { data } = await axiosWithToken.get(
-          `${process.env.REACT_APP_API_URL}/control/admin/list`
-        );
-
-        console.log("admin data", data);
-        // dispatch(adminDataSuccess(data));
-      } catch (error) {
-        dispatch(fetchFail());
-      }
-    };
 
 
   //! CREAT A NEW ADMIN
@@ -262,7 +248,6 @@ const useAuthCall = () => {
     forgottenPasswordUpdate,
     verify,
     deleteAccount,
-    listAdmins
   };
 };
 
