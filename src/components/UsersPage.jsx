@@ -6,7 +6,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { Box, TextField, Button, Typography } from "@mui/material";
+import { Box, TextField, Button } from "@mui/material";
 import { useSelector } from "react-redux";
 import EditIcon from "@mui/icons-material/Edit";
 import CancelIcon from "@mui/icons-material/Cancel";
@@ -17,7 +17,6 @@ import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import ModalUnstyled from "../components/DeleteUserModel";
 import EditModalUnstyled from "../components/EditUserModal";
 import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
-import PersonAddAlt1RoundedIcon from "@mui/icons-material/PersonAddAlt1Rounded";
 import useDataCall from "../hooks/useDataCall";
 
 const Members = () => {
