@@ -14,7 +14,7 @@ const useAuthCall = () => {
   const { axiosWithToken } = useAxios();
 
 
-    //! LIST ADMINS
+    //* LIST ADMINS
     const listAdmins = async () => {
         dispatch(fetchStart());
         try {
@@ -29,20 +29,19 @@ const useAuthCall = () => {
       };
 
 
-      
+
     
 
 
   //! UPDATE ADMIN PROFILE
-  const update = async (userData, userId) => {
+  const updateAdmin = async (userData, userId) => {
     dispatch(fetchStart());
     try {
       const { data } = await axiosWithToken.put(
         `${process.env.REACT_APP_API_URL}/control/admin/update/${userId}`,
         userData
       );
-
-    //   dispatch(updateSuccess(data));
+listAdmins()
 
       console.log("res data", data);
 
@@ -101,7 +100,7 @@ const useAuthCall = () => {
 
   return {
     createNewUser,
-    update,
+    updateAdmin,
     listUsers,
     updateUser,
     listAdmins,

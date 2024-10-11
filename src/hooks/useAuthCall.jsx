@@ -173,78 +173,13 @@ const useAuthCall = () => {
   };
 
 
-
-  //! CREAT A NEW ADMIN
-  const createNewUser = async (userData) => {
-    dispatch(fetchStart());
-    try {
-      const { data } = await axiosWithToken.post(
-        `${process.env.REACT_APP_API_URL}/users/createuser/`,
-        userData
-      );
-      listUsers();
-    } catch (error) {
-      console.log("Error during registration:", error?.response?.data?.message);
-      dispatch(fetchFail());
-      toast.error(error?.response?.data?.message);
-    }
-  };
-
-  //! UPDATE A MEMBER
-  const updateUser = async (userId, updateData) => {
-    dispatch(fetchStart());
-    try {
-      await axiosWithToken.put(
-        `${process.env.REACT_APP_API_URL}/users/${userId}`,
-        updateData
-      );
-      listUsers();
-      toast.success("Profile updated successfully");
-    } catch (error) {
-      dispatch(fetchFail());
-      toast.error("This email is already taken");
-    }
-  };
-
-  //! LIST USERS
-  const listUsers = async () => {
-    dispatch(fetchStart());
-    try {
-      const { data } = await axiosWithToken.get(
-        `${process.env.REACT_APP_API_URL}/users/`
-      );
-      // dispatch(usersSuccess(data));
-    } catch (error) {
-      dispatch(fetchFail());
-    }
-  };
-
-  //! UPDATE PASSWORD
-  const passwordUpdate = async (password) => {
-    try {
-      const res = await axiosWithToken.put(
-        `${process.env.REACT_APP_API_URL}/users/updatepass`,
-        password
-      );
-      dispatch(passwordUpdateSuccess(res));
-      toast.success("Password Changed Successfully");
-    } catch (error) {
-      dispatch(fetchFail());
-      toast.error("Failed to change password");
-    }
-  };
-
   return {
     login,
     register,
-    createNewUser,
     logout,
     forgotPassword,
     deleteUser,
     update,
-    listUsers,
-    passwordUpdate,
-    updateUser,
     forgottenPasswordUpdate,
     verify,
     deleteAccount,
