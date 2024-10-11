@@ -18,8 +18,8 @@ import ModalUnstyled from "../components/DeleteUserModel";
 import EditModalUnstyled from "../components/EditUserModal";
 import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
 import PersonAddAlt1RoundedIcon from "@mui/icons-material/PersonAddAlt1Rounded";
-// import CreateModalUnstyled from "../components/CreateUserModal";
 import useDataCall from "../hooks/useDataCall";
+
 const Members = () => {
   const { users, userId } = useSelector((state) => state.auth);
   const { admins } = useSelector((state) => state.appData);
@@ -28,7 +28,6 @@ const Members = () => {
   const [open, setOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   const [editUser, setEditUser] = useState(null);
-  const [createOpen, setCreateOpen] = useState(false);
 
   useEffect(() => {
     listAdmins();
@@ -37,14 +36,6 @@ const Members = () => {
   const handleOpen = (user) => {
     setSelectedUser(user);
     setOpen(true);
-  };
-
-  const handleCreateOpen = () => {
-    setCreateOpen(true);
-  };
-
-  const handleCreateClose = () => {
-    setCreateOpen(false);
   };
 
   const handleEditOpen = (user) => {
@@ -85,7 +76,6 @@ const Members = () => {
 
     XLSX.writeFile(workbook, "admins.xlsx");
   };
-
 
   return (
     <Box sx={{ mb: "10rem" }}>
@@ -148,11 +138,21 @@ const Members = () => {
             <TableHead>
               <TableRow>
                 <TableCell></TableCell>
-                <TableCell align="left" sx={{fontWeight:"600"}}>Name</TableCell>
-                <TableCell align="left" sx={{fontWeight:"600"}}>Email</TableCell>
-                <TableCell align="left" sx={{fontWeight:"600"}}>Authorization</TableCell>
-                <TableCell align="left" sx={{fontWeight:"600"}}>Verified Accout</TableCell>
-                <TableCell align="left" sx={{fontWeight:"600"}}>Owner Account</TableCell>
+                <TableCell align="left" sx={{ fontWeight: "600" }}>
+                  Name
+                </TableCell>
+                <TableCell align="left" sx={{ fontWeight: "600" }}>
+                  Email
+                </TableCell>
+                <TableCell align="left" sx={{ fontWeight: "600" }}>
+                  Authorization
+                </TableCell>
+                <TableCell align="left" sx={{ fontWeight: "600" }}>
+                  Verified Accout
+                </TableCell>
+                <TableCell align="left" sx={{ fontWeight: "600" }}>
+                  Owner Account
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -199,9 +199,10 @@ const Members = () => {
                   </TableCell>
                   <TableCell align="center">
                     {row.authorization ? (
- <ThumbUpAltIcon
- sx={{ color: "#24a062", fontSize: "0.95rem" }}
-/>                    ) : (
+                      <ThumbUpAltIcon
+                        sx={{ color: "#24a062", fontSize: "0.95rem" }}
+                      />
+                    ) : (
                       <ThumbDownIcon
                         sx={{ color: "#cc2525", fontSize: "0.95rem" }}
                       />
@@ -266,29 +267,6 @@ const Members = () => {
             EXPORT
           </Button>
 
-          <Button
-            type="submit"
-            variant="contained"
-            sx={{
-              mt: 4,
-              mb: 5,
-              textAlign: "center",
-              backgroundColor: "#F2F2F2",
-              color: "#494b56",
-              borderRadius: "0.7rem",
-              width: "8rem",
-              transition: "0.4s",
-
-              "&:hover": {
-                backgroundColor: "#000000",
-                color: "white",
-              },
-            }}
-            onClick={handleCreateOpen}
-          >
-            <PersonAddAlt1RoundedIcon sx={{ mr: "0.5rem" }} />
-            CREATE
-          </Button>
         </Box>
       </Box>
 
@@ -301,18 +279,17 @@ const Members = () => {
         />
       )}
 
-      {/* <CreateModalUnstyled handleCreateOpen={handleCreateOpen} handleCreateClose={handleCreateClose} createOpen={createOpen}/> */}
 
       {editUser && (
         <EditModalUnstyled
-        handleClose={handleClose}
-        open={open}
-        userId={editUser._id}
-        name={editUser.name}
-        email={editUser.email}
-        authorization={editUser.authorization}
-        verified={editUser.verified}
-        owner={editUser.owner}
+          handleClose={handleClose}
+          open={open}
+          userId={editUser._id}
+          name={editUser.name}
+          email={editUser.email}
+          authorization={editUser.authorization}
+          verified={editUser.verified}
+          owner={editUser.owner}
         />
       )}
     </Box>
