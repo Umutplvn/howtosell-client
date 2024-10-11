@@ -110,8 +110,7 @@ const useAuthCall = () => {
     const logout = async () => {
       dispatch(fetchStart());
       try {
-        localStorage.clear();
-        await axios.post(`${process.env.REACT_APP_API_URL}/control/auth/logout/`);
+        await axiosWithToken.post(`${process.env.REACT_APP_API_URL}/control/auth/logout/`);
         dispatch(logoutSuccess());
         toast.success("Logout successfull");
       } catch (error) {
