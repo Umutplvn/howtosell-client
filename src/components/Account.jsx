@@ -117,7 +117,7 @@ const Account = () => {
           <FormControl sx={{ width: "300px" }}>
             <OutlinedInput
               required
-              placeholder="At least 8 characters"
+              placeholder="* * * * * * * *"
               type={showPassword ? "text" : "password"}
               name="password"
               value={info.password}

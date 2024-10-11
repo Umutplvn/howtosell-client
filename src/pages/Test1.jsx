@@ -74,7 +74,6 @@ const Test1 = () => {
     });
   }, [answers]);
 
-  console.log(user);
 
   const handleRadioChange = (event) => {
     setSelectedValue(event.target.value);
@@ -143,7 +142,7 @@ const Test1 = () => {
         return;
       }
       const data = await axios.post(
-        "https://howtosell.onrender.com/create",
+        "https://howtosell.onrender.com/user/create",
         user
       );
 

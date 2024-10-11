@@ -77,7 +77,7 @@ const Members = () => {
   };
 
   return (
-    <Box sx={{ mb: "10rem" }}>
+    <Box sx={{ mb: "10rem", pr:"3rem", pl:"3rem" }}>
       <Box
         sx={{
           width: "100wh",
