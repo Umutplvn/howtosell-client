@@ -42,6 +42,7 @@ const demoTheme = createTheme({
   },
 });
 
+
 function DemoPageContent({ pathname }) {
   let content;
   const { owner } = useSelector((state) => state.auth);
@@ -74,7 +75,7 @@ function DemoPageContent({ pathname }) {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        textAlign: 'center',
+        textAlign: 'center'
       }}
     >
       {content}
@@ -129,6 +130,7 @@ function DashboardLayoutBasic(props) {
   ];
 
   const demoWindow = window !== undefined ? window() : undefined;
+console.log(demoTheme);
 
   return (
     <AppProvider

@@ -6,7 +6,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { Box, TextField, Button } from "@mui/material";
+import { Box, TextField, Button, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
 import EditIcon from "@mui/icons-material/Edit";
 import CancelIcon from "@mui/icons-material/Cancel";
@@ -61,7 +61,9 @@ const Members = () => {
   );
 
   const cellStyle = {
-    width: "10rem",
+    height: "3rem",
+    overflow: "scroll",
+    minWidth: "150px",
   };
 
   const handleExport = () => {
@@ -121,17 +123,16 @@ const Members = () => {
 
       <Box
         sx={{
-          maxWidth: "850px",
           overflow: "scroll",
           m: "auto",
           maxHeight: "28rem",
+          width: `75vw`,
         }}
       >
         <TableContainer
           component={Paper}
           sx={{
             borderRadius: "1rem",
-            maxWidth: "850px",
             overflow: "scroll",
             m: "auto",
             maxHeight: "23rem",
@@ -139,44 +140,71 @@ const Members = () => {
         >
           <Table sx={{ minWidth: 350 }} aria-label="simple table">
             <TableHead>
-              <TableRow sx={{ height: "3rem", overflow: "scroll" }}>
+              <TableRow sx={cellStyle}>
                 <TableCell></TableCell>
 
-                <TableCell align="left" >How old are you?</TableCell>
-                <TableCell align="left">What's your First Name?</TableCell>
-                <TableCell align="left" sx={cellStyle}>
-                  What's your Last Name, ___?
+                <TableCell align="left">
+                  <Typography sx={cellStyle}>How old are you?</Typography>
+                </TableCell>
+                <TableCell align="left">
+                  <Typography sx={cellStyle}>
+                    What's your First Name?
+                  </Typography>
+                </TableCell>
+                <TableCell align="left">
+                  <Typography sx={cellStyle}>
+                    What's your Last Name, ___?
+                  </Typography>
                 </TableCell>
 
-                <TableCell align="left" sx={cellStyle}>
-                  What's your best email, ___?
+                <TableCell align="left">
+                  <Typography sx={cellStyle}>
+                    What's your best email, ___?
+                  </Typography>
                 </TableCell>
-                <TableCell align="left" sx={cellStyle}>
-                  What's your WhatsApp Number, ____?
+                <TableCell align="left">
+                  <Typography sx={cellStyle}>
+                    What's your WhatsApp Number, ____?
+                  </Typography>
                 </TableCell>
-                <TableCell align="left" sx={cellStyle}>
-                  What's your Instagram username, ____?
+                <TableCell align="left">
+                  <Typography sx={cellStyle}>
+                    What's your Instagram username, ____?
+                  </Typography>
                 </TableCell>
-                <TableCell align="left" sx={cellStyle}>
-                  What's your current occupation, ____?
+                <TableCell align="left">
+                  <Typography sx={cellStyle}>
+                    What's your current occupation, ____?
+                  </Typography>
                 </TableCell>
-                <TableCell align="left" sx={cellStyle}>
-                  ____, please let us know a little bit about what exactly you
-                  do for a living?
+
+                <TableCell align="left">
+                  <Typography sx={cellStyle}>
+                    ____, please let us know a little bit about what exactly you
+                    do for a living?
+                  </Typography>
                 </TableCell>
-                <TableCell align="left" sx={cellStyle}>
-                  What's your yearly income?(in USD)
+                <TableCell align="left">
+                  <Typography sx={cellStyle}>
+                    What's your yearly income?(in USD)
+                  </Typography>
                 </TableCell>
-                <TableCell align="left" sx={cellStyle}>
-                  What are your goals for sales and business, ____?
+                <TableCell align="left">
+                  <Typography sx={cellStyle}>
+                    What are your goals for sales and business, ____?
+                  </Typography>
                 </TableCell>
-                <TableCell align="left" sx={cellStyle}>
-                  What are the biggest obstacles that keep you from achieving
-                  your goal, ____?
+                <TableCell align="left">
+                  <Typography sx={cellStyle}>
+                    What are the biggest obstacles that keep you from achieving
+                    your goal, ____?
+                  </Typography>
                 </TableCell>
-                <TableCell align="left" sx={cellStyle}>
-                  How much money could you directly invest in achieving these
-                  goals, if you are 100% certain that you achieve them?
+                <TableCell align="left">
+                  <Typography sx={cellStyle}>
+                    How much money could you directly invest in achieving these
+                    goals, if you are 100% certain that you achieve them?
+                  </Typography>
                 </TableCell>
               </TableRow>
             </TableHead>
