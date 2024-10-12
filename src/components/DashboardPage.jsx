@@ -16,6 +16,7 @@ import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import ModalUnstyled from "../components/DeleteClientModal";
 import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
 import useDataCall from "../hooks/useDataCall";
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 const Members = () => {
   const { userId, name} = useSelector((state) => state.auth);
@@ -321,6 +322,30 @@ const Members = () => {
             gap: "1rem",
           }}
         >
+             <Button
+            type="submit"
+            variant="contained"
+            sx={{
+              mt: 4,
+              mb: 5,
+              textAlign: "center",
+              backgroundColor: "#F2F2F2",
+              color: "#494b56",
+              borderRadius: "0.7rem",
+              width: "8rem",
+              transition: "0.4s",
+
+              "&:hover": {
+                backgroundColor: "#000000",
+                color: "white",
+              },
+            }}
+            
+          >
+            <AddCircleIcon sx={{ mr: "0.5rem" }} />
+            CREATE
+          </Button>
+
           <Button
             type="submit"
             variant="contained"
