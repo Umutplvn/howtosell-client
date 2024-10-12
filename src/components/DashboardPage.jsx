@@ -8,25 +8,22 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Box, TextField, Button, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
-import EditIcon from "@mui/icons-material/Edit";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { useState, useEffect } from "react";
 import * as XLSX from "xlsx";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
-import ModalUnstyled from "../components/DeleteUserModel";
-import EditModalUnstyled from "../components/EditUserModal";
+import ModalUnstyled from "../components/DeleteClientModal";
 import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
 import useDataCall from "../hooks/useDataCall";
 
 const Members = () => {
   const { userId } = useSelector((state) => state.auth);
   const { clients } = useSelector((state) => state.appData);
-  const { listClients } = useDataCall();
+  const { listClients} = useDataCall();
   const [search, setSearch] = useState("");
   const [open, setOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
-  const [editUser, setEditUser] = useState(null);
 
   useEffect(() => {
     listClients();
@@ -37,15 +34,9 @@ const Members = () => {
     setOpen(true);
   };
 
-  const handleEditOpen = (user) => {
-    setEditUser(user);
-    setOpen(true);
-  };
-
   const handleClose = () => {
     setOpen(false);
     setSelectedUser(null);
-    setEditUser(null);
   };
 
   const formatName = (name) => {
@@ -89,9 +80,9 @@ const Members = () => {
     const worksheet = XLSX.utils.json_to_sheet(data);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Clients");
-
     XLSX.writeFile(workbook, "Clients.xlsx");
   };
+
 
   return (
     <Box sx={{ mb: "10rem" }}>
@@ -233,19 +224,7 @@ const Members = () => {
                 >
                   <TableCell component="th" scope="row">
                     <Box sx={{ display: "flex", gap: "0.5rem" }}>
-                      <EditIcon
-                        onClick={() => handleEditOpen(row)}
-                        sx={{
-                          color: "#4b4b4b",
-                          ":hover": {
-                            cursor: "pointer",
-                            transform: "scale(1.04)",
-                            color: "black",
-                            transition:
-                              "transform 0.2s ease-in-out, color 0.2s ease-in-out",
-                          },
-                        }}
-                      />
+                 
                       <CancelIcon
                         onClick={() => handleOpen(row)}
                         sx={{
@@ -396,18 +375,6 @@ const Members = () => {
         />
       )}
 
-      {editUser && (
-        <EditModalUnstyled
-          handleClose={handleClose}
-          open={open}
-          userId={editUser._id}
-          name={editUser.name}
-          email={editUser.email}
-          authorization={editUser.authorization}
-          verified={editUser.verified}
-          owner={editUser.owner}
-        />
-      )}
     </Box>
   );
 };
