@@ -130,7 +130,6 @@ function DashboardLayoutBasic(props) {
   ];
 
   const demoWindow = window !== undefined ? window() : undefined;
-console.log(demoTheme);
 
   return (
     <AppProvider

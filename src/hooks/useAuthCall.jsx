@@ -62,8 +62,6 @@ const useAuthCall = () => {
 
       dispatch(updateSuccess(data));
 
-      console.log("res data", data);
-
       toast.success("Profile updated successfully");
     } catch (error) {
       dispatch(fetchFail());

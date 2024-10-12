@@ -22,7 +22,6 @@ const useAuthCall = () => {
       const { data } = await axiosWithToken.get(
         `${process.env.REACT_APP_API_URL}/control/admin/list`
       );
-
       dispatch(getAdminsSuccess(data));
     } catch (error) {
       dispatch(fetchFail());
@@ -52,13 +51,15 @@ const useAuthCall = () => {
       const { data } = await axiosWithToken.get(
         `${process.env.REACT_APP_API_URL}/user/list`
       );
+      console.log("clients", data);
+
       dispatch(getClientsSuccess(data));
     } catch (error) {
       dispatch(fetchFail());
     }
   };
 
-//! DELETE A CLIENT
+//* DELETE A CLIENT
 const deleteClient = async (userId) => {
   dispatch(fetchStart());
   try {
@@ -74,7 +75,21 @@ const deleteClient = async (userId) => {
   }
 };
 
-
+  //! UPDATE A CLIENT
+  const updateClient = async (userId, updateData) => {
+    dispatch(fetchStart());
+    try {
+      await axiosWithToken.put(
+        `${process.env.REACT_APP_API_URL}/user/update/${userId}`,
+        updateData
+      );
+      listClients();
+      toast.success("Successfully updated");
+    } catch (error) {
+      dispatch(fetchFail());
+      toast.error("This email is already taken");
+    }
+  };
 
 
 
@@ -96,30 +111,15 @@ const deleteClient = async (userId) => {
     }
   };
 
-  //! UPDATE A MEMBER
-  const updateUser = async (userId, updateData) => {
-    dispatch(fetchStart());
-    try {
-      await axiosWithToken.put(
-        `${process.env.REACT_APP_API_URL}/users/${userId}`,
-        updateData
-      );
-      listClients();
-      toast.success("Profile updated successfully");
-    } catch (error) {
-      dispatch(fetchFail());
-      toast.error("This email is already taken");
-    }
-  };
 
   return {
     listAdmins,
     updateAdmin,
     listClients,
     deleteClient,
+    updateClient,
 
 
-    updateUser,
     createNewUser,
   };
 };

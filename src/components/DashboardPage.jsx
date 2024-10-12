@@ -18,9 +18,9 @@ import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
 import useDataCall from "../hooks/useDataCall";
 
 const Members = () => {
-  const { userId } = useSelector((state) => state.auth);
+  const { userId, name} = useSelector((state) => state.auth);
   const { clients } = useSelector((state) => state.appData);
-  const { listClients} = useDataCall();
+  const { listClients, updateClient} = useDataCall();
   const [search, setSearch] = useState("");
   const [open, setOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
@@ -43,6 +43,17 @@ const Members = () => {
     if (!name) return "";
     return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
   };
+
+
+  const contFunc=(userId)=>{
+    updateClient(userId.userId, {updateData:{connected:true, connectedBy:name}})
+  } 
+  
+  const noContFunc=(userId)=>{
+    updateClient(userId.userId, {updateData:{connected:false, connectedBy:"-"}})
+
+  }
+
 
   const filterUsers = clients?.filter(
     (item) =>
@@ -282,11 +293,13 @@ const Members = () => {
                   <TableCell align="center">
                     {row.connected ? (
                       <ThumbUpAltIcon
-                        sx={{ color: "#24a062", fontSize: "0.95rem" }}
+                      onClick={()=>noContFunc({userId:row._id})}
+                        sx={{ color: "#24a062", fontSize: "0.95rem", cursor:"pointer" }}
                       />
                     ) : (
                       <ThumbDownIcon
-                        sx={{ color: "#cc2525", fontSize: "0.95rem" }}
+                        onClick={()=>contFunc({userId:row._id})}
+                        sx={{ color: "#cc2525", fontSize: "0.95rem", cursor:"pointer" }}
                       />
                     )}{" "}
                   </TableCell>
@@ -294,39 +307,7 @@ const Members = () => {
                   <TableCell sx={{ minWidth: "150px" }} align="left">
                     {row.connectedBy}
                   </TableCell>
-                  {/* <TableCell align="center">
-                    {row.authorization ? (
-                      <ThumbUpAltIcon
-                        sx={{ color: "#24a062", fontSize: "0.95rem" }}
-                      />
-                    ) : (
-                      <ThumbDownIcon
-                        sx={{ color: "#cc2525", fontSize: "0.95rem" }}
-                      />
-                    )}
-                  </TableCell>
-                  <TableCell align="center" sx={{ minWidth: "95px" }}>
-                    {row.verified ? (
-                      <ThumbUpAltIcon
-                        sx={{ color: "#24a062", fontSize: "0.95rem" }}
-                      />
-                    ) : (
-                      <ThumbDownIcon
-                        sx={{ color: "#cc2525", fontSize: "0.95rem" }}
-                      />
-                    )}
-                  </TableCell>
-                  <TableCell align="center" sx={{ minWidth: "95px" }}>
-                    {row.owner ? (
-                      <ThumbUpAltIcon
-                        sx={{ color: "#24a062", fontSize: "0.95rem" }}
-                      />
-                    ) : (
-                      <ThumbDownIcon
-                        sx={{ color: "#cc2525", fontSize: "0.95rem" }}
-                      />
-                    )}
-                  </TableCell> */}
+            
                 </TableRow>
               ))}
             </TableBody>
