@@ -20,16 +20,16 @@ import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
 import useDataCall from "../hooks/useDataCall";
 
 const Members = () => {
-  const { users, userId } = useSelector((state) => state.auth);
-  const { admins } = useSelector((state) => state.appData);
-  const { listAdmins } = useDataCall();
+  const { userId } = useSelector((state) => state.auth);
+  const { clients } = useSelector((state) => state.appData);
+  const { listClients } = useDataCall();
   const [search, setSearch] = useState("");
   const [open, setOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   const [editUser, setEditUser] = useState(null);
 
   useEffect(() => {
-    listAdmins();
+    listClients();
   }, []);
 
   const handleOpen = (user) => {
@@ -53,11 +53,11 @@ const Members = () => {
     return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
   };
 
-  const filterUsers = admins?.filter(
+  const filterUsers = clients?.filter(
     (item) =>
-      item._id !== userId &&
-      (item.name.toLowerCase().includes(search.toLowerCase()) ||
-        item.email.toLowerCase().includes(search.toLowerCase()))
+      item.name.toLowerCase().includes(search.toLowerCase()) ||
+      item.email.toLowerCase().includes(search.toLowerCase()) ||
+      item.lastname.toLowerCase().includes(search.toLowerCase())
   );
 
   const cellStyle = {
@@ -68,11 +68,22 @@ const Members = () => {
 
   const handleExport = () => {
     const data = filterUsers.map((user) => ({
-      Name: formatName(user.name),
-      Email: user.email,
-      Authorization: user.authorization,
-      VerifiedAccount: user.verified,
-      Owner: user.owner,
+      "How old are you?": user.age,
+      "What's your First Name?": formatName(user.name),
+      "What's your Last Name, ___?": user.lastname,
+      "What's your best email, ___?": user.email,
+      "What's your WhatsApp Number,____?": user.phone,
+      "What's your Instagram username, ____?": user.instagram,
+      "What's your current occupation, ____?": user.occupation,
+      "____, please let us know a little bit about what exactly you do for a living?":
+        user.descOfJob,
+      "What's your yearly income?(in USD)": user.income,
+      "What are your goals for sales and business, ____?": user.goal,
+      "What are the biggest obstacles that keep you from achieving your goal, ____?":
+        user.obstacles,
+      "How much money could you directly invest in achieving these goals, if you are 100% certain that you achieve them?":
+        user.directInvest,
+      "Contacted Customer": user.connected,
     }));
 
     const worksheet = XLSX.utils.json_to_sheet(data);
@@ -206,6 +217,12 @@ const Members = () => {
                     goals, if you are 100% certain that you achieve them?
                   </Typography>
                 </TableCell>
+                <TableCell align="left">
+                  <Typography sx={{ width: "80px" }}>Contacted</Typography>
+                </TableCell>
+                <TableCell align="left">
+                  <Typography sx={{ width: "100px" }}>Contacted By</Typography>
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -245,12 +262,60 @@ const Members = () => {
                     </Box>
                   </TableCell>
                   <TableCell sx={{ minWidth: "150px" }} align="left">
+                    {formatName(row.age)}
+                  </TableCell>
+                  <TableCell sx={{ minWidth: "150px" }} align="left">
                     {formatName(row.name)}
+                  </TableCell>
+                  <TableCell sx={{ minWidth: "150px" }} align="left">
+                    {formatName(row.lastname)}
                   </TableCell>
                   <TableCell sx={{ minWidth: "150px" }} align="left">
                     {row.email}
                   </TableCell>
+                  <TableCell sx={{ minWidth: "150px" }} align="left">
+                    {row.phone}
+                  </TableCell>
+
+                  <TableCell sx={{ minWidth: "150px" }} align="left">
+                    {row.instagram}
+                  </TableCell>
+                  <TableCell sx={{ minWidth: "150px" }} align="left">
+                    {row.occupation}
+                  </TableCell>
+                  <TableCell sx={{ minWidth: "150px" }} align="left">
+                    {row.descOfJob}
+                  </TableCell>
+                  <TableCell sx={{ minWidth: "150px" }} align="left">
+                    {row.income}
+                  </TableCell>
+                  <TableCell sx={{ minWidth: "150px" }} align="left">
+                    {row.goal}
+                  </TableCell>
+
+                  <TableCell sx={{ minWidth: "150px" }} align="left">
+                    {row.obstacles}
+                  </TableCell>
+
+                  <TableCell sx={{ minWidth: "150px" }} align="left">
+                    {row.directInvest}
+                  </TableCell>
                   <TableCell align="center">
+                    {row.connected ? (
+                      <ThumbUpAltIcon
+                        sx={{ color: "#24a062", fontSize: "0.95rem" }}
+                      />
+                    ) : (
+                      <ThumbDownIcon
+                        sx={{ color: "#cc2525", fontSize: "0.95rem" }}
+                      />
+                    )}{" "}
+                  </TableCell>
+
+                  <TableCell sx={{ minWidth: "150px" }} align="left">
+                    {row.connectedBy}
+                  </TableCell>
+                  {/* <TableCell align="center">
                     {row.authorization ? (
                       <ThumbUpAltIcon
                         sx={{ color: "#24a062", fontSize: "0.95rem" }}
@@ -282,7 +347,7 @@ const Members = () => {
                         sx={{ color: "#cc2525", fontSize: "0.95rem" }}
                       />
                     )}
-                  </TableCell>
+                  </TableCell> */}
                 </TableRow>
               ))}
             </TableBody>

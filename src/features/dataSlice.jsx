@@ -23,7 +23,7 @@ export const dataSlice = createSlice({
     getClientsSuccess: (state, { payload }) => {
       state.loading = false;
       state.error = false;
-      // state.clients=payload.result
+      state.clients=payload.result
     },
 
     getAdminsSuccess: (state, { payload }) => {

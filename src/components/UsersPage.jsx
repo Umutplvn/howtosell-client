@@ -62,18 +62,18 @@ const Members = () => {
 
   const handleExport = () => {
     const data = filterUsers.map((user) => ({
-      Name: formatName(user.name),
-      Email: user.email,
-      Authorization: user.authorization,
-      VerifiedAccount: user.verified,
-      Owner: user.owner,
+      "User Name": formatName(user.name),
+      "User Email": user.email,
+      "Account is Authorized": user.authorization,
+      "Account is VerifiedAccount": user.verified,
+      "Owner Account": user.owner,
     }));
 
     const worksheet = XLSX.utils.json_to_sheet(data);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Admins");
 
-    XLSX.writeFile(workbook, "admins.xlsx");
+    XLSX.writeFile(workbook, "Users.xlsx");
   };
 
   return (
@@ -121,6 +121,8 @@ const Members = () => {
           overflow: "scroll",
           m: "auto",
           maxHeight: "28rem",
+          width: `75vw`,
+
         }}
       >
         <TableContainer

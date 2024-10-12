@@ -19,7 +19,6 @@ export default function EditModalUnstyled({
   verified,
   owner
 }) {
-  const { updateUser } = useAuthCall();
   const {updateAdmin}=useDataCall()
   const [info, setInfo] = useState({ name, authorization, verified, owner });
 

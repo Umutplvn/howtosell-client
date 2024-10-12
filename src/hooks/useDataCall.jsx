@@ -3,37 +3,33 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import toast from "react-hot-toast";
 import useAxios from "./useAxios";
-import { getAdminsSuccess } from "../features/dataSlice";
 import {
-    fetchStart,
-    fetchFail} from "../features/dataSlice"
+  fetchStart,
+  fetchFail,
+  getClientsSuccess,
+  getAdminsSuccess,
+} from "../features/dataSlice";
 
 const useAuthCall = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { axiosWithToken } = useAxios();
 
+  //* LIST ADMINS
+  const listAdmins = async () => {
+    dispatch(fetchStart());
+    try {
+      const { data } = await axiosWithToken.get(
+        `${process.env.REACT_APP_API_URL}/control/admin/list`
+      );
 
-    //* LIST ADMINS
-    const listAdmins = async () => {
-        dispatch(fetchStart());
-        try {
-          const { data } = await axiosWithToken.get(
-            `${process.env.REACT_APP_API_URL}/control/admin/list`
-          );
-    
-          dispatch(getAdminsSuccess(data));
-        } catch (error) {
-          dispatch(fetchFail());
-        }
-      };
+      dispatch(getAdminsSuccess(data));
+    } catch (error) {
+      dispatch(fetchFail());
+    }
+  };
 
-
-
-    
-
-
-  //! UPDATE ADMIN PROFILE
+  //* UPDATE ADMIN PROFILE
   const updateAdmin = async (userData, userId) => {
     dispatch(fetchStart());
     try {
@@ -41,10 +37,7 @@ const useAuthCall = () => {
         `${process.env.REACT_APP_API_URL}/control/admin/update/${userId}`,
         userData
       );
-listAdmins()
-
-      console.log("res data", data);
-
+      listAdmins();
       toast.success("Profile updated successfully");
     } catch (error) {
       dispatch(fetchFail());
@@ -52,6 +45,19 @@ listAdmins()
     }
   };
 
+  //! LIST USERS
+  const listClients = async () => {
+    dispatch(fetchStart());
+    try {
+      const { data } = await axiosWithToken.get(
+        `${process.env.REACT_APP_API_URL}/user/list`
+      );
+      console.log("client data", data);
+      dispatch(getClientsSuccess(data));
+    } catch (error) {
+      dispatch(fetchFail());
+    }
+  };
 
   //! CREAT A NEW ADMIN
   const createNewUser = async (userData) => {
@@ -61,7 +67,7 @@ listAdmins()
         `${process.env.REACT_APP_API_URL}/users/createuser/`,
         userData
       );
-      listUsers();
+      listClients();
     } catch (error) {
       console.log("Error during registration:", error?.response?.data?.message);
       dispatch(fetchFail());
@@ -77,7 +83,7 @@ listAdmins()
         `${process.env.REACT_APP_API_URL}/users/${userId}`,
         updateData
       );
-      listUsers();
+      listClients();
       toast.success("Profile updated successfully");
     } catch (error) {
       dispatch(fetchFail());
@@ -85,23 +91,10 @@ listAdmins()
     }
   };
 
-  //! LIST USERS
-  const listUsers = async () => {
-    dispatch(fetchStart());
-    try {
-      const { data } = await axiosWithToken.get(
-        `${process.env.REACT_APP_API_URL}/users/`
-      );
-      // dispatch(usersSuccess(data));
-    } catch (error) {
-      dispatch(fetchFail());
-    }
-  };
-
   return {
     createNewUser,
     updateAdmin,
-    listUsers,
+    listClients,
     updateUser,
     listAdmins,
   };
