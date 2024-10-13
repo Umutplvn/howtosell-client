@@ -19,7 +19,7 @@ import useDataCall from "../hooks/useDataCall";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import NestedModal from "./CreateClientModal";
 import ReadNestedModal from "./ReadClientModal";
-
+import OpenWithIcon from "@mui/icons-material/OpenWith";
 
 const Members = () => {
   const { name } = useSelector((state) => state.auth);
@@ -30,7 +30,7 @@ const Members = () => {
   const [readOpen, setReadOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   const [clientOpen, setClientOpen] = useState(false);
-const [data, setData] = useState({})
+  const [data, setData] = useState({});
   useEffect(() => {
     listClients();
   }, []);
@@ -50,9 +50,8 @@ const [data, setData] = useState({})
 
   const handleReadFucn = (row) => {
     setReadOpen(true);
-    setData(row)
+    setData(row);
   };
-
 
   const formatName = (name) => {
     if (!name) return "";
@@ -246,8 +245,9 @@ const [data, setData] = useState({})
               {filterUsers?.map((row, index) => (
                 <TableRow
                   key={row._id}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 }, cursor:"pointer" }}
-                  onClick={()=>handleReadFucn(row)}
+                  sx={{
+                    "&:last-child td, &:last-child th": { border: 0 },
+                  }}
                 >
                   <TableCell component="th" scope="row">
                     <Box
@@ -274,6 +274,19 @@ const [data, setData] = useState({})
                             cursor: "pointer",
                             transform: "scale(1.04)",
                             color: "#c72525",
+                            transition:
+                              "transform 0.2s ease-in-out, color 0.2s ease-in-out",
+                          },
+                        }}
+                      />
+                      <OpenWithIcon
+                        onClick={() => handleReadFucn(row)}
+                        sx={{
+                          color: "#4b4b4b",
+                          ":hover": {
+                            cursor: "pointer",
+                            transform: "scale(1.04)",
+                            color: "#0aaf04",
                             transition:
                               "transform 0.2s ease-in-out, color 0.2s ease-in-out",
                           },
@@ -417,7 +430,11 @@ const [data, setData] = useState({})
       </Box>
 
       <NestedModal clientOpen={clientOpen} setClientOpen={setClientOpen} />
-      <ReadNestedModal  readOpen={readOpen} setReadOpen={setReadOpen} data={data} />
+      <ReadNestedModal
+        readOpen={readOpen}
+        setReadOpen={setReadOpen}
+        data={data}
+      />
       {selectedUser && (
         <ModalUnstyled
           handleClose={handleClose}
