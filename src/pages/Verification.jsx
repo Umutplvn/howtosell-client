@@ -42,7 +42,7 @@ const Verification = () => {
     e.preventDefault();
     if (passcode == pass) {
         verify(userId);
-          navigate("/db");
+          navigate("/dashboard");
 
       toast.success("Welcome to How To Sell!");
     } else {
