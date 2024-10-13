@@ -17,6 +17,7 @@ import ModalUnstyled from "../components/DeleteClientModal";
 import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
 import useDataCall from "../hooks/useDataCall";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import NestedModal from './CreateClientModal'
 
 const Members = () => {
   const { userId, name} = useSelector((state) => state.auth);
@@ -25,6 +26,7 @@ const Members = () => {
   const [search, setSearch] = useState("");
   const [open, setOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [clientOpen, setClientOpen] = React.useState(false);
 
   useEffect(() => {
     listClients();
@@ -39,7 +41,9 @@ const Members = () => {
     setOpen(false);
     setSelectedUser(null);
   };
-
+  const handleClientOpen = () => {
+    setClientOpen(true);
+  };
   const formatName = (name) => {
     if (!name) return "";
     return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
@@ -340,7 +344,7 @@ const Members = () => {
                 color: "white",
               },
             }}
-            
+            onClick={handleClientOpen}
           >
             <AddCircleIcon sx={{ mr: "0.5rem" }} />
             CREATE
@@ -371,7 +375,8 @@ const Members = () => {
           </Button>
         </Box>
       </Box>
-
+      
+<NestedModal clientOpen={clientOpen} setClientOpen={setClientOpen}/>
       {selectedUser && (
         <ModalUnstyled
           handleClose={handleClose}
