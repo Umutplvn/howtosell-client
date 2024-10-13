@@ -20,7 +20,7 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import NestedModal from "./CreateClientModal";
 
 const Members = () => {
-  const { userId, name } = useSelector((state) => state.auth);
+  const { name } = useSelector((state) => state.auth);
   const { clients } = useSelector((state) => state.appData);
   const { listClients, updateClient } = useDataCall();
   const [search, setSearch] = useState("");
@@ -71,7 +71,7 @@ const Members = () => {
   const cellStyle = {
     height: "3rem",
     overflow: "scroll",
-    minWidth: "150px",
+    minWidth: "200px",
   };
 
   const handleExport = () => {
@@ -244,12 +244,14 @@ const Members = () => {
                         gap: "0.5rem",
                         justifyContent: "center",
                         alignItems: "center",
+                        
                       }}
                     >
                       <Typography
                         sx={{
-                          fontWeight: "700",
+                          fontWeight: "600",
                           color: "#0445AF",
+                        
                         }}
                       >
                         {index + 1})
@@ -269,44 +271,81 @@ const Members = () => {
                       />
                     </Box>
                   </TableCell>
-                  <TableCell sx={{ minWidth: "150px" }} align="left">
+                  <TableCell align="left">
+                    <Typography sx={cellStyle}>
                     {formatName(row.age)}
+                    </Typography>
                   </TableCell>
-                  <TableCell sx={{ minWidth: "150px" }} align="left">
+
+                  <TableCell align="left">
+                    <Typography sx={cellStyle}>
+
                     {formatName(row.name)}
+                    </Typography>
                   </TableCell>
-                  <TableCell sx={{ minWidth: "150px" }} align="left">
+
+                  <TableCell align="left">
+                    <Typography sx={cellStyle}>
+
                     {formatName(row.lastname)}
+                    </Typography>
                   </TableCell>
-                  <TableCell sx={{ minWidth: "150px" }} align="left">
+                  <TableCell align="left">
+                    <Typography sx={cellStyle}>
+
                     {row.email}
+                    </Typography>
                   </TableCell>
-                  <TableCell sx={{ minWidth: "150px" }} align="left">
+                  <TableCell align="left">
+                    <Typography sx={cellStyle}>
+
                     {row.phone}
+                    </Typography>
                   </TableCell>
 
-                  <TableCell sx={{ minWidth: "150px" }} align="left">
+                  <TableCell align="left">
+                    <Typography sx={cellStyle}>
+
                     {row.instagram}
+                    </Typography>
                   </TableCell>
-                  <TableCell sx={{ minWidth: "150px" }} align="left">
+                  <TableCell align="left">
+                    <Typography sx={cellStyle}>
+
                     {row.occupation}
+                    </Typography>
                   </TableCell>
-                  <TableCell sx={{ minWidth: "150px" }} align="left">
+                  <TableCell align="left">
+                    <Typography sx={cellStyle}>
+
                     {row.descOfJob}
+                    </Typography>
                   </TableCell>
-                  <TableCell sx={{ minWidth: "150px" }} align="left">
+                  <TableCell align="left">
+                    <Typography sx={cellStyle}>
+
                     {row.income}
+                    </Typography>
                   </TableCell>
-                  <TableCell sx={{ minWidth: "150px" }} align="left">
+                  <TableCell align="left">
+                    <Typography sx={cellStyle}>
+
                     {row.goal}
+                    </Typography>
                   </TableCell>
 
-                  <TableCell sx={{ minWidth: "150px" }} align="left">
+                  <TableCell align="left">
+                    <Typography sx={cellStyle}>
+
                     {row.obstacles}
+                    </Typography>
                   </TableCell>
 
-                  <TableCell sx={{ minWidth: "150px" }} align="left">
+                  <TableCell align="left">
+                    <Typography sx={cellStyle}>
+
                     {row.directInvest}
+                    </Typography>
                   </TableCell>
                   <TableCell align="center">
                     {row.connected ? (
