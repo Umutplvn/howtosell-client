@@ -16,13 +16,13 @@ import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import ModalUnstyled from "../components/DeleteClientModal";
 import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
 import useDataCall from "../hooks/useDataCall";
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import NestedModal from './CreateClientModal'
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import NestedModal from "./CreateClientModal";
 
 const Members = () => {
-  const { userId, name} = useSelector((state) => state.auth);
+  const { userId, name } = useSelector((state) => state.auth);
   const { clients } = useSelector((state) => state.appData);
-  const { listClients, updateClient} = useDataCall();
+  const { listClients, updateClient } = useDataCall();
   const [search, setSearch] = useState("");
   const [open, setOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
@@ -49,16 +49,17 @@ const Members = () => {
     return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
   };
 
+  const contFunc = (userId) => {
+    updateClient(userId.userId, {
+      updateData: { connected: true, connectedBy: name },
+    });
+  };
 
-  const contFunc=(userId)=>{
-    updateClient(userId.userId, {updateData:{connected:true, connectedBy:name}})
-  } 
-  
-  const noContFunc=(userId)=>{
-    updateClient(userId.userId, {updateData:{connected:false, connectedBy:"-"}})
-
-  }
-
+  const noContFunc = (userId) => {
+    updateClient(userId.userId, {
+      updateData: { connected: false, connectedBy: "-" },
+    });
+  };
 
   const filterUsers = clients?.filter(
     (item) =>
@@ -98,7 +99,6 @@ const Members = () => {
     XLSX.utils.book_append_sheet(workbook, worksheet, "Clients");
     XLSX.writeFile(workbook, "Clients.xlsx");
   };
-
 
   return (
     <Box>
@@ -144,7 +144,6 @@ const Members = () => {
           overflow: "scroll",
           m: "auto",
           width: `75vw`,
-
         }}
       >
         <TableContainer
@@ -153,7 +152,7 @@ const Members = () => {
             borderRadius: "1rem",
             overflow: "scroll",
             m: "auto",
-            height:"55vh"
+            height: "55vh",
           }}
         >
           <Table sx={{ minWidth: 350 }} aria-label="simple table">
@@ -233,14 +232,28 @@ const Members = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {filterUsers?.map((row) => (
+              {filterUsers?.map((row, index) => (
                 <TableRow
                   key={row._id}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
-                    <Box sx={{ display: "flex", gap: "0.5rem" }}>
-                 
+                    <Box
+                      sx={{
+                        display: "flex",
+                        gap: "0.5rem",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Typography
+                        sx={{
+                          fontWeight: "700",
+                          color: "#0445AF",
+                        }}
+                      >
+                        {index + 1})
+                      </Typography>{" "}
                       <CancelIcon
                         onClick={() => handleOpen(row)}
                         sx={{
@@ -298,13 +311,21 @@ const Members = () => {
                   <TableCell align="center">
                     {row.connected ? (
                       <ThumbUpAltIcon
-                      onClick={()=>noContFunc({userId:row._id})}
-                        sx={{ color: "#24a062", fontSize: "0.95rem", cursor:"pointer" }}
+                        onClick={() => noContFunc({ userId: row._id })}
+                        sx={{
+                          color: "#24a062",
+                          fontSize: "0.95rem",
+                          cursor: "pointer",
+                        }}
                       />
                     ) : (
                       <ThumbDownIcon
-                        onClick={()=>contFunc({userId:row._id})}
-                        sx={{ color: "#cc2525", fontSize: "0.95rem", cursor:"pointer" }}
+                        onClick={() => contFunc({ userId: row._id })}
+                        sx={{
+                          color: "#cc2525",
+                          fontSize: "0.95rem",
+                          cursor: "pointer",
+                        }}
                       />
                     )}{" "}
                   </TableCell>
@@ -312,7 +333,6 @@ const Members = () => {
                   <TableCell sx={{ minWidth: "150px" }} align="left">
                     {row.connectedBy}
                   </TableCell>
-            
                 </TableRow>
               ))}
             </TableBody>
@@ -326,7 +346,7 @@ const Members = () => {
             gap: "1rem",
           }}
         >
-             <Button
+          <Button
             type="submit"
             variant="contained"
             sx={{
@@ -375,8 +395,8 @@ const Members = () => {
           </Button>
         </Box>
       </Box>
-      
-<NestedModal clientOpen={clientOpen} setClientOpen={setClientOpen}/>
+
+      <NestedModal clientOpen={clientOpen} setClientOpen={setClientOpen} />
       {selectedUser && (
         <ModalUnstyled
           handleClose={handleClose}
@@ -385,7 +405,6 @@ const Members = () => {
           name={selectedUser.name}
         />
       )}
-
     </Box>
   );
 };
