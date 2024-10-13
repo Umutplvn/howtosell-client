@@ -18,6 +18,8 @@ import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
 import useDataCall from "../hooks/useDataCall";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import NestedModal from "./CreateClientModal";
+import ReadNestedModal from "./ReadClientModal";
+
 
 const Members = () => {
   const { name } = useSelector((state) => state.auth);
@@ -25,9 +27,10 @@ const Members = () => {
   const { listClients, updateClient } = useDataCall();
   const [search, setSearch] = useState("");
   const [open, setOpen] = useState(false);
+  const [readOpen, setReadOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   const [clientOpen, setClientOpen] = useState(false);
-
+const [data, setData] = useState({})
   useEffect(() => {
     listClients();
   }, []);
@@ -44,6 +47,13 @@ const Members = () => {
   const handleClientOpen = () => {
     setClientOpen(true);
   };
+
+  const handleReadFucn = (row) => {
+    setReadOpen(true);
+    setData(row)
+  };
+
+
   const formatName = (name) => {
     if (!name) return "";
     return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
@@ -72,6 +82,7 @@ const Members = () => {
     height: "3rem",
     overflow: "scroll",
     minWidth: "200px",
+    m: "-0.5rem",
   };
 
   const handleExport = () => {
@@ -235,7 +246,8 @@ const Members = () => {
               {filterUsers?.map((row, index) => (
                 <TableRow
                   key={row._id}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 }, cursor:"pointer" }}
+                  onClick={()=>handleReadFucn(row)}
                 >
                   <TableCell component="th" scope="row">
                     <Box
@@ -244,14 +256,12 @@ const Members = () => {
                         gap: "0.5rem",
                         justifyContent: "center",
                         alignItems: "center",
-                        
                       }}
                     >
                       <Typography
                         sx={{
                           fontWeight: "600",
                           color: "#0445AF",
-                        
                         }}
                       >
                         {index + 1})
@@ -273,79 +283,50 @@ const Members = () => {
                   </TableCell>
                   <TableCell align="left">
                     <Typography sx={cellStyle}>
-                    {formatName(row.age)}
+                      {formatName(row.age)}
                     </Typography>
                   </TableCell>
 
                   <TableCell align="left">
                     <Typography sx={cellStyle}>
-
-                    {formatName(row.name)}
+                      {formatName(row.name)}
                     </Typography>
                   </TableCell>
 
                   <TableCell align="left">
                     <Typography sx={cellStyle}>
-
-                    {formatName(row.lastname)}
+                      {formatName(row.lastname)}
                     </Typography>
                   </TableCell>
                   <TableCell align="left">
-                    <Typography sx={cellStyle}>
-
-                    {row.email}
-                    </Typography>
+                    <Typography sx={cellStyle}>{row.email}</Typography>
                   </TableCell>
                   <TableCell align="left">
-                    <Typography sx={cellStyle}>
-
-                    {row.phone}
-                    </Typography>
+                    <Typography sx={cellStyle}>{row.phone}</Typography>
                   </TableCell>
 
                   <TableCell align="left">
-                    <Typography sx={cellStyle}>
-
-                    {row.instagram}
-                    </Typography>
+                    <Typography sx={cellStyle}>{row.instagram}</Typography>
                   </TableCell>
                   <TableCell align="left">
-                    <Typography sx={cellStyle}>
-
-                    {row.occupation}
-                    </Typography>
+                    <Typography sx={cellStyle}>{row.occupation}</Typography>
                   </TableCell>
                   <TableCell align="left">
-                    <Typography sx={cellStyle}>
-
-                    {row.descOfJob}
-                    </Typography>
+                    <Typography sx={cellStyle}>{row.descOfJob}</Typography>
                   </TableCell>
                   <TableCell align="left">
-                    <Typography sx={cellStyle}>
-
-                    {row.income}
-                    </Typography>
+                    <Typography sx={cellStyle}>{row.income}</Typography>
                   </TableCell>
                   <TableCell align="left">
-                    <Typography sx={cellStyle}>
-
-                    {row.goal}
-                    </Typography>
+                    <Typography sx={cellStyle}>{row.goal}</Typography>
                   </TableCell>
 
                   <TableCell align="left">
-                    <Typography sx={cellStyle}>
-
-                    {row.obstacles}
-                    </Typography>
+                    <Typography sx={cellStyle}>{row.obstacles}</Typography>
                   </TableCell>
 
                   <TableCell align="left">
-                    <Typography sx={cellStyle}>
-
-                    {row.directInvest}
-                    </Typography>
+                    <Typography sx={cellStyle}>{row.directInvest}</Typography>
                   </TableCell>
                   <TableCell align="center">
                     {row.connected ? (
@@ -436,6 +417,7 @@ const Members = () => {
       </Box>
 
       <NestedModal clientOpen={clientOpen} setClientOpen={setClientOpen} />
+      <ReadNestedModal  readOpen={readOpen} setReadOpen={setReadOpen} data={data} />
       {selectedUser && (
         <ModalUnstyled
           handleClose={handleClose}

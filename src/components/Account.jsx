@@ -65,7 +65,7 @@ const Account = () => {
 
   return (
     <Box
-      sx={{ border: "1px solid #e1e1e1", p: "1.5rem", borderRadius: "0.5rem" }}
+      sx={{ border: "1px solid #e1e1e1", p: "2.5rem 1.5rem", borderRadius: "0.5rem" }}
     >
       <Box>
         <LockIcon sx={{ fontSize: "2.5rem", color: "#000000" }} />
@@ -74,7 +74,7 @@ const Account = () => {
         </Typography>
       </Box>
 
-      <Box sx={{ mt: "4rem" }}>
+      <Box sx={{ width:{xs:"300px", md:"400px",mt: "4rem"} }} >
         <Box
           sx={{
             mb: "1rem",
@@ -82,6 +82,7 @@ const Account = () => {
             alignItems: "flex-start",
             flexDirection: "column",
             maxWidth: "500px",
+            mt:"2rem"
           }}
         >
           <Typography
@@ -89,7 +90,7 @@ const Account = () => {
           >
             Name
           </Typography>
-          <FormControl sx={{ width: "300px" }}>
+          <FormControl sx={{ width: "100%" }}>
             <OutlinedInput
               required
               placeholder={name}
@@ -114,7 +115,7 @@ const Account = () => {
           >
             Password
           </Typography>
-          <FormControl sx={{ width: "300px" }}>
+          <FormControl sx={{ width: "100%" }} >
             <OutlinedInput
               required
               placeholder="* * * * * * * *"
