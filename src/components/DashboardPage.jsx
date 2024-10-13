@@ -26,7 +26,7 @@ const Members = () => {
   const [search, setSearch] = useState("");
   const [open, setOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
-  const [clientOpen, setClientOpen] = React.useState(false);
+  const [clientOpen, setClientOpen] = useState(false);
 
   useEffect(() => {
     listClients();
