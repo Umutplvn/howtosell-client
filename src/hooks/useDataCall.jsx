@@ -59,23 +59,23 @@ const useAuthCall = () => {
     }
   };
 
-//* DELETE A CLIENT
-const deleteClient = async (userId) => {
-  dispatch(fetchStart());
-  try {
-    const { data } = await axiosWithToken.delete(
-      `${process.env.REACT_APP_API_URL}/user/delete`,
-      { data: { userId } }
-    );
-    listClients()
-    toast.success("Successfully deleted")
-  } catch (error) {
-    dispatch(fetchFail());
-    console.error(error);
-  }
-};
+  //* DELETE A CLIENT
+  const deleteClient = async (userId) => {
+    dispatch(fetchStart());
+    try {
+      const { data } = await axiosWithToken.delete(
+        `${process.env.REACT_APP_API_URL}/user/delete`,
+        { data: { userId } }
+      );
+      listClients();
+      toast.success("Successfully deleted");
+    } catch (error) {
+      dispatch(fetchFail());
+      console.error(error);
+    }
+  };
 
-  //! UPDATE A CLIENT
+  //* UPDATE A CLIENT
   const updateClient = async (userId, updateData) => {
     dispatch(fetchStart());
     try {
@@ -91,26 +91,20 @@ const deleteClient = async (userId) => {
     }
   };
 
-
-
-
-
-  //! CREAT A NEW ADMIN
-  const createNewUser = async (userData) => {
+  //! CREATE A CLIENT
+  const createClient = async (info) => {
     dispatch(fetchStart());
     try {
       const { data } = await axiosWithToken.post(
-        `${process.env.REACT_APP_API_URL}/users/createuser/`,
-        userData
+        `${process.env.REACT_APP_API_URL}/user/create`,
+        info
       );
       listClients();
+      toast.success('Form submitted')
     } catch (error) {
-      console.log("Error during registration:", error?.response?.data?.message);
       dispatch(fetchFail());
-      toast.error(error?.response?.data?.message);
     }
   };
-
 
   return {
     listAdmins,
@@ -118,9 +112,7 @@ const deleteClient = async (userId) => {
     listClients,
     deleteClient,
     updateClient,
-
-
-    createNewUser,
+    createClient,
   };
 };
 

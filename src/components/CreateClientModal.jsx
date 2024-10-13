@@ -3,7 +3,11 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Button from "@mui/material/Button";
 import { TextField, Typography } from "@mui/material";
+import NativeSelect from "@mui/material/NativeSelect";
+import FormControl from "@mui/material/FormControl";
 import { useState } from "react";
+import useDataCall from '../hooks/useDataCall'
+import { toast } from "react-hot-toast";
 
 const style = {
   position: "absolute",
@@ -14,11 +18,16 @@ const style = {
   bgcolor: "background.paper",
   border: "2px solid #6a6a6a",
   boxShadow: 12,
-  pt: 2,
+  pt: 4,
   px: 4,
+  height: "35rem",
+  overflow: "scroll",
 };
 
 export default function NestedModal({ clientOpen, setClientOpen }) {
+
+const {createClient}=useDataCall()
+
   const handleClientClose = () => {
     setClientOpen(false);
   };
@@ -41,7 +50,34 @@ export default function NestedModal({ clientOpen, setClientOpen }) {
     obstacles: "",
     directInvest: "",
   });
-  console.log(info);
+
+
+  const handleSubmit = () => {
+
+    if(!info.age||!info.name||!info.email||!info.phone||!info.instagram||!info.income||!info.obstacles||!info.directInvest ){
+        toast.error('Please fill required fields')
+    }else{
+        createClient(info)
+        setInfo({
+            age: "",
+            name: "",
+            lastname: "",
+            email: "",
+            phone: "",
+            instagram: "",
+            occupation: "",
+            descOfJob: "",
+            income: "",
+            goal: "",
+            obstacles: "",
+            directInvest: "",
+          })
+        handleClientClose()
+    }
+    
+
+
+  };
 
   return (
     <Box>
@@ -51,32 +87,272 @@ export default function NestedModal({ clientOpen, setClientOpen }) {
         aria-labelledby="parent-modal-title"
         aria-describedby="parent-modal-description"
       >
-        <Box sx={{ ...style, width: 500, borderRadius: "1rem" }}>
-         
-         
-         
-         
-         
-          <Box sx={{ display: "flex", gap: "0.5rem", flexDirection: "column" }}>
+        <Box sx={{ ...style, width:"90%", maxWidth:"550px", borderRadius: "1rem" }}>
+          {/* Q1 */}
+          <Box sx={{ mb: "1rem" }}>
             <Typography
               sx={{
                 fontWeight: "700",
-                width: "100%",
-                display: "flex",
-                alignItems: "center",
+              }}
+            >
+              1.How old are you?*
+            </Typography>
+
+            <FormControl sx={{ width: "100%" }}>
+              <NativeSelect
+                onChange={(e) => handleChange(e)}
+                name="age"
+                defaultValue=""
+                required
+              >
+                <option value="" disabled>
+                  Select your age group
+                </option>
+
+                <option value={"under 18"}>Under 18</option>
+                <option value={"18-24"}>18-24</option>
+                <option value={"25-34"}>25-34</option>
+                <option value={"35-44"}>35-44</option>
+                <option value={"45-54"}>45-54</option>
+                <option value={"55+"}>55+</option>
+              </NativeSelect>
+            </FormControl>
+          </Box>
+
+          {/* Q2 */}
+          <Box sx={{ mb: "1rem" }}>
+            <Typography
+              sx={{
+                fontWeight: "700",
               }}
             >
               2.What's your First Name?*
             </Typography>
             <TextField
+              required
               variant="standard"
               sx={{
-                width: "90%",
+                width: "100%",
               }}
               name="name"
               onChange={(e) => handleChange(e)}
             />
           </Box>
+
+          {/* Q3 */}
+          <Box sx={{ mb: "1rem" }}>
+            <Typography
+              sx={{
+                fontWeight: "700",
+              }}
+            >
+              3.What's your Last Name?
+            </Typography>
+            <TextField
+              variant="standard"
+              sx={{
+                width: "100%",
+              }}
+              name="lastname"
+              onChange={(e) => handleChange(e)}
+            />
+          </Box>
+
+          {/* Q4 */}
+          <Box sx={{ mb: "1rem" }}>
+            <Typography
+              sx={{
+                fontWeight: "700",
+              }}
+            >
+              4.What's your best email?*
+            </Typography>
+            <TextField
+              variant="standard"
+              sx={{
+                width: "100%",
+              }}
+              name="email"
+              onChange={(e) => handleChange(e)}
+            />
+          </Box>
+          {/* Q5 */}
+          <Box sx={{ mb: "1rem" }}>
+            <Typography
+              sx={{
+                fontWeight: "700",
+              }}
+            >
+              5.What's your WhatsApp Number?*
+            </Typography>
+            <TextField
+              variant="standard"
+              sx={{
+                width: "100%",
+              }}
+              name="phone"
+              onChange={(e) => handleChange(e)}
+            />
+          </Box>
+          {/* Q6 */}
+          <Box sx={{ mb: "1rem" }}>
+            <Typography
+              sx={{
+                fontWeight: "700",
+              }}
+            >
+              6.What's your Instagram username?*
+            </Typography>
+            <TextField
+              variant="standard"
+              sx={{
+                width: "100%",
+              }}
+              name="instagram"
+              onChange={(e) => handleChange(e)}
+            />
+          </Box>
+          {/* Q7 */}
+          <Box sx={{ mb: "1rem" }}>
+            <Typography
+              sx={{
+                fontWeight: "700",
+              }}
+            >
+              7.What's your current occupation?
+            </Typography>
+
+            <FormControl sx={{ width: "100%" }}>
+              <NativeSelect
+                onChange={(e) => handleChange(e)}
+                name="occupation"
+                defaultValue=""
+                required
+              >
+                <option value="" disabled>
+                  Select your occupation
+                </option>
+
+                <option value={"Student"}>Student</option>
+                <option value={"Employee"}>Employee</option>
+                <option value={"Self-Employed/Business Owner"}>
+                  Self-Employed/Business Owner
+                </option>
+                <option value={"Currently Not Working"}>
+                  Currently Not Working
+                </option>
+              </NativeSelect>
+            </FormControl>
+          </Box>
+          {/* Q8 */}
+          <Box sx={{ mb: "1rem" }}>
+            <Typography
+              sx={{
+                fontWeight: "700",
+              }}
+            >
+              8.Please let us know a little bit about what exactly you do for a
+              living?
+            </Typography>
+            <TextField
+              variant="standard"
+              sx={{
+                width: "100%",
+              }}
+              name="descOfJob"
+              onChange={(e) => handleChange(e)}
+            />
+          </Box>
+
+          {/* Q9 */}
+          <Box sx={{ mb: "1rem" }}>
+            <Typography
+              sx={{
+                fontWeight: "700",
+              }}
+            >
+              9.What's your yearly income?(in USD)*
+            </Typography>
+            <TextField
+              variant="standard"
+              sx={{
+                width: "100%",
+              }}
+              name="income"
+              onChange={(e) => handleChange(e)}
+            />
+          </Box>
+
+          {/* Q10 */}
+          <Box sx={{ mb: "1rem" }}>
+            <Typography
+              sx={{
+                fontWeight: "700",
+              }}
+            >
+              10.What are your goals for sales and business?{" "}
+            </Typography>
+            <TextField
+              variant="standard"
+              sx={{
+                width: "100%",
+              }}
+              name="goal"
+              onChange={(e) => handleChange(e)}
+            />
+          </Box>
+
+          {/* Q11 */}
+          <Box sx={{ mb: "1rem" }}>
+            <Typography
+              sx={{
+                fontWeight: "700",
+              }}
+            >
+              11.What are the biggest obstacles that keep you from achieving
+              your goal?*{" "}
+            </Typography>
+            <TextField
+              variant="standard"
+              sx={{
+                width: "100%",
+              }}
+              name="obstacles"
+              onChange={(e) => handleChange(e)}
+            />
+          </Box>
+
+          {/* Q12 */}
+          <Box sx={{ mb: "1rem" }}>
+            <Typography
+              sx={{
+                fontWeight: "700",
+              }}
+            >
+              12.How much money could you directly invest in achieving these
+              goals, if you are 100% certain that you achieve them?*
+            </Typography>
+
+            <FormControl sx={{ width: "100%" }}>
+              <NativeSelect
+                onChange={(e) => handleChange(e)}
+                name="directInvest"
+                defaultValue=""
+                required
+              >
+                <option value="" disabled>
+                  Select your answer
+                </option>
+
+                <option value={"Below $1000"}>Below $1000</option>
+                <option value={"$1000-$2000"}>$1000-$2000</option>
+                <option value={"$2000-$5000"}>$2000-$5000</option>
+                <option value={"$5000-$10,000"}>$5000-$10,000</option>
+                <option value={"10,000+"}>10,000+</option>
+              </NativeSelect>
+            </FormControl>
+          </Box>
+
           <Box
             sx={{
               display: "flex",
@@ -102,7 +378,7 @@ export default function NestedModal({ clientOpen, setClientOpen }) {
                   color: "white",
                 },
               }}
-              //   onClick={}
+              onClick={handleSubmit}
             >
               submit
             </Button>

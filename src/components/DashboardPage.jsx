@@ -101,7 +101,7 @@ const Members = () => {
 
 
   return (
-    <Box sx={{ mb: "10rem" }}>
+    <Box>
       <Box
         sx={{
           width: "100wh",
@@ -143,8 +143,8 @@ const Members = () => {
         sx={{
           overflow: "scroll",
           m: "auto",
-          maxHeight: "28rem",
           width: `75vw`,
+
         }}
       >
         <TableContainer
@@ -153,7 +153,7 @@ const Members = () => {
             borderRadius: "1rem",
             overflow: "scroll",
             m: "auto",
-            maxHeight: "23rem",
+            height:"55vh"
           }}
         >
           <Table sx={{ minWidth: 350 }} aria-label="simple table">

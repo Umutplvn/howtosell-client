@@ -4,7 +4,6 @@ import clsx from "clsx";
 import { styled, css } from "@mui/system";
 import { Modal as BaseModal } from "@mui/base/Modal";
 import { Box, Button, TextField, Typography } from "@mui/material";
-import useAuthCall from "../hooks/useAuthCall";
 import { useState } from "react";
 import NativeSelect from '@mui/material/NativeSelect';
 import FormControl from '@mui/material/FormControl';
@@ -45,7 +44,7 @@ export default function EditModalUnstyled({
         onClose={handleClose}
         slots={{ backdrop: StyledBackdrop }}
       >
-        <ModalContent sx={{ width: 400, maxHeight: "20rem" }}>
+        <ModalContent sx={{ width: 400, maxHeight: "17.5rem" }}>
 <Box sx={{display:"flex", alignItems:"center", gap:"0.5rem"}}>
   <Typography sx={{fontWeight:"700",  minWidth:"130px"}}>Name:</Typography>
   <TextField

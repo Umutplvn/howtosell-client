@@ -527,22 +527,6 @@ const Test1 = () => {
                   />
                 </Box>
 
-                {/* <TextField
-                  variant="standard"
-                  type="email"
-                  placeholder="name@example.com"
-                  sx={{
-                    width: { xs: "300px", sm: "500px" },
-                    mt: 2,
-                    "& .MuiInputBase-input": {
-                      color: "#0445AF",
-                      fontSize: "1.2rem",
-                    },
-                  }}
-                  value={answers[currentQuestion] || ""}
-                  onChange={handleInputChange}
-                /> */}
-
                 <Box
                   sx={{
                     display: "flex",
@@ -1014,7 +998,7 @@ const Test1 = () => {
                     fontSize: "1.3rem",
                     letterSpacing: "0.03rem",
                     textAlign: "left",
-                    width: { xs: "300px", sm: "400px" },
+                    width: { xs: "300px", sm: "406px" },
                   }}
                 >
                   <span style={{ color: "#0445AF", marginRight: "5px" }}>
@@ -1023,7 +1007,7 @@ const Test1 = () => {
                   How much money could you{" "}
                   <span style={{ fontWeight: "700" }}>directly invest</span> in
                   achieving these goals, if you are 100% certain that you
-                  achieve them?
+                  achieve them?*
                 </Typography>
 
                 <RadioGroup
