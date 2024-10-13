@@ -61,7 +61,7 @@ const Members = () => {
   );
 
   const handleExport = () => {
-    const data = filterUsers.map((user) => ({
+    const data = filterUsers?.map((user) => ({
       "User Name": formatName(user.name),
       "User Email": user.email,
       "Account is Authorized": user.authorization,

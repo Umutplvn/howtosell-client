@@ -45,27 +45,39 @@ const demoTheme = createTheme({
 
 function DemoPageContent({ pathname }) {
   let content;
-  const { owner } = useSelector((state) => state.auth);
+  const { owner, authorization } = useSelector((state) => state?.auth);
 
   switch (pathname) {
     case '/dashboard':
-      content = <DashboardPage />;
+      if (authorization) {
+        content = <DashboardPage />;
+      } else {
+        content = <Typography variant="h4" sx={{fontWeight:"600", fontFamily: "Helvetica sans-seri",
+      }}>Authorization required!</Typography>;
+      }
       break;
     case '/users':
       if (owner) {
         content = <UsersPage />;
       } else {
-        content = <Typography variant="h4">Access Denied</Typography>;
+        content = <Typography variant="h4" sx={{fontWeight:"600", fontFamily: "Helvetica sans-seri",
+      }}>Just For Super Admin!</Typography>;
       }
       break;
     case '/stats':
-      content = <StatsPage />;
+      if (authorization) {
+        content = <StatsPage />;
+      } else {
+        content = <Typography variant="h4" sx={{fontWeight:"600", fontFamily: "Helvetica sans-seri",
+      }}>Authorization required!</Typography>;
+      }
       break;
     case '/account':
       content = <Account />;
       break;
     default:
-      content = <Typography variant="h4">Page Not Found</Typography>;
+      content = <Typography variant="h4" sx={{fontWeight:"600", fontFamily: "Helvetica sans-seri",
+    }}>Page Not Found</Typography>;
   }
 
   return (

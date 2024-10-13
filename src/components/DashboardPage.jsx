@@ -22,8 +22,8 @@ import ReadNestedModal from "./ReadClientModal";
 import OpenWithIcon from "@mui/icons-material/OpenWith";
 
 const Members = () => {
-  const { name } = useSelector((state) => state.auth);
-  const { clients } = useSelector((state) => state.appData);
+  const { name } = useSelector((state) => state?.auth);
+  const { clients } = useSelector((state) => state?.appData);
   const { listClients, updateClient } = useDataCall();
   const [search, setSearch] = useState("");
   const [open, setOpen] = useState(false);
@@ -72,9 +72,9 @@ const Members = () => {
 
   const filterUsers = clients?.filter(
     (item) =>
-      item.name.toLowerCase().includes(search.toLowerCase()) ||
-      item.email.toLowerCase().includes(search.toLowerCase()) ||
-      item.lastname.toLowerCase().includes(search.toLowerCase())
+      item?.name.toLowerCase().includes(search.toLowerCase()) ||
+      item?.email.toLowerCase().includes(search.toLowerCase()) ||
+      item?.lastname.toLowerCase().includes(search.toLowerCase())
   );
 
   const cellStyle = {
@@ -85,7 +85,7 @@ const Members = () => {
   };
 
   const handleExport = () => {
-    const data = filterUsers.map((user) => ({
+    const data = filterUsers?.map((user) => ({
       "How old are you?": user.age,
       "What's your First Name?": formatName(user.name),
       "What's your Last Name, ___?": user.lastname,
@@ -364,7 +364,7 @@ const Members = () => {
                   </TableCell>
 
                   <TableCell sx={{ minWidth: "150px" }} align="left">
-                    {row.connectedBy}
+                    {formatName(row.connectedBy)}
                   </TableCell>
                 </TableRow>
               ))}
