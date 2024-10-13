@@ -81,8 +81,12 @@ const Members = () => {
     height: "3rem",
     overflow: "scroll",
     minWidth: "200px",
-    m: "-0.5rem",
+    m: "-0.5rem"
   };
+
+  const stickyStyle={ position: 'sticky', top: 0, backgroundColor: '#f8f8f8'
+}
+
 
   const handleExport = () => {
     const data = filterUsers?.map((user) => ({
@@ -102,6 +106,7 @@ const Members = () => {
       "How much money could you directly invest in achieving these goals, if you are 100% certain that you achieve them?":
         user.directInvest,
       "Contacted Customer": user.connected,
+      "Contacted By":user.connectedBy,
     }));
 
     const worksheet = XLSX.utils.json_to_sheet(data);
@@ -166,82 +171,82 @@ const Members = () => {
           }}
         >
           <Table sx={{ minWidth: 350 }} aria-label="simple table">
-            <TableHead>
+            <TableHead sx={{position:"sticky", pb:"4rem"}}>
               <TableRow sx={cellStyle}>
-                <TableCell></TableCell>
+                <TableCell sx={stickyStyle}></TableCell>
 
-                <TableCell align="left">
+                <TableCell align="left" sx={stickyStyle}>
                   <Typography sx={cellStyle}>How old are you?</Typography>
                 </TableCell>
-                <TableCell align="left">
+                <TableCell align="left" sx={stickyStyle}>
                   <Typography sx={cellStyle}>
                     What's your First Name?
                   </Typography>
                 </TableCell>
-                <TableCell align="left">
+                <TableCell align="left" sx={stickyStyle}>
                   <Typography sx={cellStyle}>
                     What's your Last Name, ___?
                   </Typography>
                 </TableCell>
 
-                <TableCell align="left">
+                <TableCell align="left" sx={stickyStyle}>
                   <Typography sx={cellStyle}>
                     What's your best email, ___?
                   </Typography>
                 </TableCell>
-                <TableCell align="left">
+                <TableCell align="left" sx={stickyStyle}>
                   <Typography sx={cellStyle}>
                     What's your WhatsApp Number, ____?
                   </Typography>
                 </TableCell>
-                <TableCell align="left">
+                <TableCell align="left" sx={stickyStyle}>
                   <Typography sx={cellStyle}>
                     What's your Instagram username, ____?
                   </Typography>
                 </TableCell>
-                <TableCell align="left">
+                <TableCell align="left" sx={stickyStyle}>
                   <Typography sx={cellStyle}>
                     What's your current occupation, ____?
                   </Typography>
                 </TableCell>
 
-                <TableCell align="left">
+                <TableCell align="left" sx={stickyStyle}>
                   <Typography sx={cellStyle}>
                     ____, please let us know a little bit about what exactly you
                     do for a living?
                   </Typography>
                 </TableCell>
-                <TableCell align="left">
+                <TableCell align="left" sx={stickyStyle}>
                   <Typography sx={cellStyle}>
                     What's your yearly income?(in USD)
                   </Typography>
                 </TableCell>
-                <TableCell align="left">
+                <TableCell align="left" sx={stickyStyle}>
                   <Typography sx={cellStyle}>
                     What are your goals for sales and business, ____?
                   </Typography>
                 </TableCell>
-                <TableCell align="left">
+                <TableCell align="left" sx={stickyStyle}>
                   <Typography sx={cellStyle}>
                     What are the biggest obstacles that keep you from achieving
                     your goal, ____?
                   </Typography>
                 </TableCell>
-                <TableCell align="left">
+                <TableCell align="left" sx={stickyStyle}>
                   <Typography sx={cellStyle}>
                     How much money could you directly invest in achieving these
                     goals, if you are 100% certain that you achieve them?
                   </Typography>
                 </TableCell>
-                <TableCell align="left">
+                <TableCell align="left" sx={stickyStyle}>
                   <Typography sx={{ width: "80px" }}>Contacted</Typography>
                 </TableCell>
-                <TableCell align="left">
+                <TableCell align="left" sx={stickyStyle}>
                   <Typography sx={{ width: "100px" }}>Contacted By</Typography>
                 </TableCell>
               </TableRow>
             </TableHead>
-            <TableBody>
+            <TableBody >
               {filterUsers?.map((row, index) => (
                 <TableRow
                   key={row._id}
